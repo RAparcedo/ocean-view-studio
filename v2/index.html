@@ -35,8 +35,8 @@
     --sc-surface: color-mix(in oklab, var(--dusk-surface) var(--d), var(--day-surface));
     --sc-ink:     color-mix(in oklab, var(--dusk-ink) var(--d), var(--day-ink));
     --sc-ink-soft:color-mix(in oklab, var(--dusk-soft) var(--d), var(--day-soft));
-    --sc-accent:  color-mix(in oklab, var(--dusk-accent) var(--d), var(--day-accent));
-    --sc-accent-ink: color-mix(in oklab, var(--dusk-aink) var(--d), var(--day-aink));
+    --sc-accent: var(--day-accent);
+    --sc-accent-ink: var(--day-aink);
     --sc-hairline: color-mix(in oklab, var(--sc-ink) 14%, transparent);
     --sc-font-display: "Instrument Serif", Georgia, serif;
     --sc-font-text: "Geist", system-ui, sans-serif;
@@ -44,11 +44,13 @@
     --sun: #f2a65a;
     --r: 3px;
   }
+  :root[data-night] { --sc-accent: var(--dusk-accent); --sc-accent-ink: var(--dusk-aink); }
   html { background: var(--sc-canvas); }
   body { background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); font-weight: 400; }
   h1, h2, h3 { font-family: var(--sc-font-display); font-weight: 400; letter-spacing: -0.012em; margin: 0; text-wrap: balance; }
   h1 em, h2 em, h3 em { font-style: italic; }
   a { color: inherit; }
+  .skip:focus-visible { position: fixed !important; left: 1rem; top: 1rem; width: auto; height: auto; clip: auto; z-index: 100; padding: .7rem 1rem; background: var(--sc-canvas); color: var(--sc-ink); border-radius: 6px; }
   .vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .kick { display: block; font: 500 .72rem/1.2 var(--sc-font-text); letter-spacing: .2em; text-transform: uppercase; color: var(--sc-ink-soft); margin: 0 0 1.1rem; }
   .kick time { letter-spacing: .12em; }
@@ -86,7 +88,7 @@
   .nav a { font: 400 .88rem/1 var(--sc-font-text); text-decoration: none; opacity: .78; padding: .5rem 0; }
   .nav a:hover, .nav a[aria-current="true"] { opacity: 1; text-decoration: underline; text-underline-offset: .35em; text-decoration-thickness: 1px; }
   .langs { display: flex; }
-  .langs button { background: none; border: 0; color: inherit; font: 500 .76rem/1 var(--sc-font-text); letter-spacing: .08em; padding: .55rem .4rem; min-width: 2.3rem; min-height: 2.4rem; opacity: .58; cursor: pointer; }
+  .langs button { background: none; border: 0; color: inherit; font: 500 .76rem/1 var(--sc-font-text); letter-spacing: .08em; padding: .55rem .4rem; min-width: 2.75rem; min-height: 2.75rem; opacity: .72; cursor: pointer; }
   .langs button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: .35em; }
   .bar .btn { min-height: 2.5rem; padding: .55rem 1.05rem; font-size: .9rem; }
   .bar[data-tone="dark"] .btn--solid, .bar[data-tone="photo"] .btn--solid { background: #f2ece3; color: #14202b; }
@@ -96,11 +98,11 @@
   /* sticky booking bar on phones */
   .dock { display: none; }
   @media (max-width: 860px) {
-    .dock { display: grid; grid-template-columns: 1fr auto; gap: .5rem; position: fixed; left: .75rem; right: .75rem; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 70;
+    .dock { visibility: hidden; display: grid; grid-template-columns: 1fr auto; gap: .5rem; position: fixed; left: .75rem; right: .75rem; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 70;
       padding: .5rem; border-radius: 999px; background: color-mix(in oklab, var(--sc-canvas) 94%, transparent); box-shadow: 0 10px 30px -8px rgb(10 20 30 / .35), 0 0 0 1px var(--sc-hairline);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       transform: translateY(140%); transition: transform 260ms var(--sc-ease-out); }
-    .dock.is-on { transform: none; }
+    .dock.is-on { transform: none; visibility: visible; }
     .dock .btn { min-height: 2.9rem; }
     .dock .btn--wa { background: #1f7a4d; color: #fff; padding-inline: 1.1rem; }
     .dock .btn--wa span { display: none; }
@@ -165,7 +167,7 @@
   .zone__label .kick { color: rgb(246 241 234 / .85); margin-bottom: .55rem; }
   .zone__label h3 { font-size: clamp(1.8rem, 2.8vw, 2.6rem); line-height: 1; }
   .thumbs { display: flex; gap: .5rem; margin-top: .9rem; }
-  .thumbs button { padding: 0; border: 1px solid rgb(255 255 255 / .55); border-radius: 2px; width: 3.4rem; height: 2.5rem; overflow: hidden; cursor: pointer; background: none; opacity: .78; transition: opacity 160ms var(--sc-ease-out), border-color 160ms var(--sc-ease-out); }
+  .thumbs button { padding: 0; border: 1px solid rgb(255 255 255 / .55); border-radius: 2px; width: 3.6rem; height: 2.75rem; overflow: hidden; cursor: pointer; background: none; opacity: .78; transition: opacity 160ms var(--sc-ease-out), border-color 160ms var(--sc-ease-out); }
   .thumbs button img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .thumbs button[aria-pressed="true"] { opacity: 1; border-color: #fff; }
   .thumbs button:hover { opacity: 1; }
@@ -210,10 +212,20 @@
   .around .grid { display: grid; grid-template-columns: 1fr 1.45fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
   .around h2 { font-size: clamp(2.4rem, 4.2vw, 4rem); line-height: 1; }
   .places { list-style: none; margin: 2rem 0 0; padding: 0; border-top: 1px solid var(--sc-hairline); }
-  .places li { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: baseline; padding: .85rem 0; border-bottom: 1px solid var(--sc-hairline); cursor: default; transition: background-color 160ms var(--sc-ease-out); }
+  .places li { border-bottom: 1px solid var(--sc-hairline); }
+  .places .place { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: baseline; width: 100%; padding: .85rem 0; min-height: 3rem; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .places .place b { display: inline-block; transition: color 160ms var(--sc-ease-out), transform 200ms cubic-bezier(.16,1,.3,1); }
+  .places .place:hover b, .places .place[aria-pressed="true"] b { transform: translateX(.35rem); }
   .places li b { font: 400 1.35rem/1.1 var(--sc-font-display); }
   .places li span { font-size: .88rem; color: var(--sc-ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .places li.is-hot b { color: var(--sc-accent); }
+  .map .route { fill: none; stroke: var(--day-accent); stroke-width: 2.4; stroke-linecap: round; opacity: 0; transition: stroke-dashoffset 560ms cubic-bezier(.16,1,.3,1), opacity 160ms var(--sc-ease-out); }
+  .map .route.is-on { opacity: 1; }
+  .map .lab.lab--time { font: 600 15px/1 var(--sc-font-text); fill: var(--day-accent); opacity: 0; transition: opacity 200ms var(--sc-ease-out) 260ms; }
+  .map .lab.lab--time.is-on { opacity: 1; }
+  .map .home-ring { transform-box: fill-box; transform-origin: center; transition: transform 420ms cubic-bezier(.16,1,.3,1); }
+  .map .home-ring.is-on { transform: scale(1.6); }
+  @media (prefers-reduced-motion: reduce) { .map .route { transition: opacity 160ms; } .places .place b { transition: color 160ms; } .places .place:hover b, .places .place[aria-pressed="true"] b { transform: none; } }
   .map { position: relative; margin: 0; border-radius: var(--r); overflow: hidden; background: #dfe6e8; aspect-ratio: 680 / 400; position: sticky; top: 6rem; }
   .map svg { display: block; width: 100%; height: 100%; }
   .map .land { fill: #ece4d6; stroke: #cfc4b1; stroke-width: 1; }
@@ -224,10 +236,10 @@
   .map .lab--isle { font: italic 400 26px/1 var(--sc-font-display); fill: #4c5a63; stroke: none; }
   .map .home { fill: var(--sun); stroke: #fff; stroke-width: 3; }
   .map .home-ring { fill: none; stroke: var(--sun); stroke-width: 1.5; opacity: .7; }
-  .map figcaption { position: absolute; left: .9rem; bottom: .7rem; font-size: .72rem; color: #5f7480; }
+  .map figcaption { position: absolute; right: .9rem; bottom: .7rem; font-size: .72rem; color: #4c5a63; }
   .around .note { margin-top: 1.6rem; font-size: .95rem; line-height: 1.6; max-width: 52ch; }
   .around .fine { font-size: .8rem; color: var(--sc-ink-soft); margin-top: .8rem; }
-  @media (max-width: 860px) { .around .grid { grid-template-columns: 1fr; } .map { position: relative; top: 0; } .map .lab { font-size: 19px; } .map .lab--opt { display: none; } }
+  @media (max-width: 860px) { .around .grid { grid-template-columns: 1fr; } .map { position: relative; top: 0; aspect-ratio: 400 / 330; } .map .lab { font-size: 15px; } .map .lab--opt { display: none; } .map .lab--isle { font-size: 20px; } }
 
   /* ================= 7 · sunset */
   .sunset [data-sc-stage] { background: #0e141c; }
@@ -251,19 +263,23 @@
     -webkit-mask-composite: source-in;
     mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / .5) 22%, #000 50%, rgb(0 0 0 / .5) 78%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 20%, transparent 62%);
     mask-composite: intersect; }
-  .real { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
-  .real img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; display: block; }
+  .real { position: absolute; inset: 0; visibility: hidden; --ix: 50%; --iy: 40%; --ir: 0px;
+    -webkit-mask-image: radial-gradient(circle at var(--ix) var(--iy), #000 calc(var(--ir) - 90px), transparent var(--ir));
+            mask-image: radial-gradient(circle at var(--ix) var(--iy), #000 calc(var(--ir) - 90px), transparent var(--ir)); }
+  .real img { position: absolute; left: 0; top: 0; width: 1199px; height: 900px; max-width: none; transform-origin: 0 0; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { .real { -webkit-mask-image: none; mask-image: none; } }
   .sunset .sc-copy { left: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 5.5rem); max-width: min(40rem, 62vw); color: #fff; z-index: 6; }
   .sunset .sc-copy .kick { color: #f6efe6; }
-  .sunset h2 { font-size: clamp(2.8rem, 5.6vw, 5.4rem); line-height: .98; color: #fff; text-shadow: 0 2px 26px rgb(6 12 30 / .45); }
+  .sunset :is(h2, .h2) { font-family: var(--sc-font-display); font-weight: 400; letter-spacing: -0.012em; margin: 0; text-wrap: balance; font-size: clamp(2.8rem, 5.6vw, 5.4rem); line-height: .98; color: #fff; text-shadow: 0 2px 26px rgb(6 12 30 / .45); }
+  .sunset .h2 em { font-style: italic; }
   .sunset p.s { font-size: 1.06rem; line-height: 1.6; margin: 1rem 0 0; color: #f3ece2; max-width: 40ch; text-shadow: 0 1px 12px rgb(6 12 30 / .55); }
   .sunset .scrim { position: absolute; inset: auto 0 0 0; height: 60%; z-index: 5; pointer-events: none; background: linear-gradient(to top, rgb(9 14 30 / .74), rgb(9 14 30 / .38) 42%, transparent); }
   .sunset .credit { position: absolute; right: var(--sc-gutter); bottom: 1.2rem; z-index: 6; font-size: .74rem; line-height: 1.4; color: rgb(255 255 255 / .82); max-width: 24rem; text-align: right; text-shadow: 0 1px 6px rgb(0 0 0 / .5); will-change: opacity; }
   @media (max-width: 860px) {
     .sunset .sc-copy { max-width: none; right: var(--sc-gutter); bottom: 6.6rem; }
-    .sunset h2 { font-size: clamp(2.4rem, 10.5vw, 3.2rem); }
+    .sunset :is(h2, .h2) { font-family: var(--sc-font-display); font-weight: 400; letter-spacing: -0.012em; margin: 0; text-wrap: balance; font-size: clamp(2.4rem, 10.5vw, 3.2rem); }
     .sunset p.s { font-size: 1rem; }
-    .sunset .credit { left: var(--sc-gutter); text-align: left; bottom: 5.2rem; }
+    .sunset .credit { left: var(--sc-gutter); right: var(--sc-gutter); text-align: left; top: 4.6rem; bottom: auto; max-width: none; }
   }
 
   /* ================= 8 · book */
@@ -279,6 +295,9 @@
   .foot { border-top: 1px solid var(--sc-hairline); padding-block: 1.6rem 2rem; display: flex; flex-wrap: wrap; gap: .6rem 2rem; justify-content: space-between; font-size: .84rem; color: var(--sc-ink-soft); }
   @media (max-width: 860px) { .foot { padding-bottom: 6.5rem; } }
 
+  ::view-transition-group(zone-photo) { animation-duration: 440ms; animation-timing-function: cubic-bezier(.16,1,.3,1); }
+  ::view-transition-old(zone-photo), ::view-transition-new(zone-photo) { height: 100%; object-fit: cover; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 260ms; }
   ::selection { background: color-mix(in oklab, var(--sun) 55%, transparent); color: inherit; }
 </style>
 </head>
@@ -286,17 +305,17 @@
 
 <span data-sc-progress></span>
 <div class="sc-grain" aria-hidden="true"></div>
-<a class="vh" href="#book" data-i18n="skip">Skip to booking</a>
+<a class="vh skip" href="#book" data-i18n="skip">Skip to booking</a>
 
 <header class="bar" data-tone="dark">
   <a class="mark" href="#arrive">Ocean View <i>Studio</i></a>
-  <nav class="nav" aria-label="Sections">
+  <nav class="nav" aria-label="Sections" data-i18n-aria="ariaSections">
     <a href="#view" data-i18n="nView">The view</a>
     <a href="#studio" data-i18n="nStudio">The studio</a>
     <a href="#guests" data-i18n="nGuests">Guests</a>
     <a href="#around" data-i18n="nAround">Location</a>
   </nav>
-  <div class="langs" role="group" aria-label="Language">
+  <div class="langs" role="group" aria-label="Language" data-i18n-aria="ariaLang">
     <button type="button" data-lang="en" lang="en">EN</button>
     <button type="button" data-lang="es" lang="es">ES</button>
     <button type="button" data-lang="de" lang="de">DE</button>
@@ -304,10 +323,10 @@
   <a class="btn btn--solid bar__book js-booking" href="https://www.booking.com/hotel/es/studio-joanna-1206.en-gb.html" rel="noopener" data-i18n="book">Check dates on Booking</a>
 </header>
 
-<div class="dock" aria-label="Book">
+<nav class="dock" aria-label="Book" data-i18n-aria="ariaBook" inert>
   <a class="btn btn--solid js-booking" href="https://www.booking.com/hotel/es/studio-joanna-1206.en-gb.html" rel="noopener" data-i18n="book">Check dates on Booking</a>
   <a class="btn btn--wa js-wa" href="https://wa.me/34602527760" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2s.2-1.1.1-1.2-.2-.2-.4-.3Z"/></svg><span>WhatsApp</span></a>
-</div>
+</nav>
 
 <main>
 
@@ -319,7 +338,7 @@
       <img class="layer layer--land" src="assets/pano-land.webp" width="5500" height="1425" alt="" decoding="async">
       <div class="room-wall room-wall--l" aria-hidden="true"></div>
       <div class="room-wall room-wall--r" aria-hidden="true"></div>
-      <img class="layer layer--room" src="assets/v2/room.webp" width="1080" height="1920" alt="The studio's living room, looking through the glass doors to the balcony, the sea and La Gomera." fetchpriority="high">
+      <img class="layer layer--room" src="assets/v2/room.webp" width="1080" height="1920" alt="The studio's living room, looking through the glass doors to the balcony, the sea and La Gomera." data-i18n-alt="altRoom" fetchpriority="high">
       <div class="scrim-m" aria-hidden="true" data-sc-cue="0 0.46 0 0.1"></div>
       <div class="sc-copy" data-sc-cue="0 0.3 0 0.12">
         <span class="kick">Playa Paraíso · Tenerife</span>
@@ -339,7 +358,7 @@
 
   <!-- 2 · the view -->
   <section id="view" class="view" data-sc-act="pan" data-sc-span="2.4" data-tone="paper">
-    <div data-sc-stage>
+    <div data-sc-stage class="js-pano-stage">
       <div class="rail" data-sc-pan="0.04">
         <div class="rail__lead">
           <span class="kick">11:00 · <span data-i18n="kView">The view</span></span>
@@ -347,7 +366,7 @@
           <p class="lede" data-i18n="viewP">Stitched from a phone video filmed on the balcony. Left is the open sea, right is the coast and the hills.</p>
         </div>
         <figure>
-          <img src="assets/pano.webp" width="5500" height="1425" alt="Daytime panorama from the balcony: the Atlantic, La Gomera on the horizon, a small beach below the cliff, white terraced hotels and the hills inland." loading="lazy" decoding="async">
+          <img src="assets/pano.webp" width="5500" height="1425" alt="Daytime panorama from the balcony: the Atlantic, La Gomera on the horizon, a small beach below the cliff, white terraced hotels and the hills inland." data-i18n-alt="altPano" loading="lazy" decoding="async">
           <div class="tag" style="left:6%;--lead:9rem"><b data-i18n="t1">The Atlantic</b><span data-i18n="t1s">Straight out from the balcony.</span></div>
           <div class="tag" style="left:21%;--lead:3.5rem"><b data-i18n="t2">Two small beaches</b><span data-i18n="t2s">At the foot of the cliff, about five minutes on foot.</span></div>
           <div class="tag" style="left:34%;--lead:24rem"><b>La Gomera</b><span data-i18n="t3s">The next island to the west. Clear most days.</span></div>
@@ -362,7 +381,7 @@
   <!-- 3 · the studio -->
   <section id="studio" class="studio sec" data-tone="paper">
     <div class="wrap">
-      <div class="head" data-sc-in data-sc-stagger="60">
+      <div class="head">
         <div>
           <span class="kick">13:00 · <span data-i18n="kStudio">The studio</span></span>
           <h2 data-i18n-html="studioH">One room, <em>three places</em> to be.</h2>
@@ -373,14 +392,14 @@
       <div class="zones">
         <figure class="zone zone--a" data-zone>
           <div class="zone__frame">
-            <img src="assets/v2/living.webp" width="1280" height="853" alt="The living area with an armchair, the kitchenette behind it and a sea painting on the wall." loading="lazy" decoding="async">
+            <img src="assets/v2/living.webp" width="1280" height="853" alt="The living area with an armchair, the kitchenette behind it and a sea painting on the wall." data-i18n-alt="altLiving" loading="lazy" decoding="async">
             <div class="zone__label">
               <span class="kick" data-i18n="z1k">Living &amp; kitchen</span>
               <h3 data-i18n-html="z1h">Coffee with a <em>sea view</em></h3>
-              <div class="thumbs" role="group" aria-label="Photos">
-                <button type="button" aria-pressed="true" data-src="assets/v2/living.webp" data-alt="The living area and the kitchenette."><img src="assets/v2/living-t.webp" alt="" loading="lazy"></button>
-                <button type="button" aria-pressed="false" data-src="assets/v2/studio.webp" data-alt="The whole studio, looking towards the balcony."><img src="assets/v2/studio-t.webp" alt="" loading="lazy"></button>
-                <button type="button" aria-pressed="false" data-src="assets/v2/armchair.webp" data-alt="An armchair with sea-coloured cushions."><img src="assets/v2/armchair-t.webp" alt="" loading="lazy"></button>
+              <div class="thumbs" role="group" aria-label="Photos" data-i18n-aria="ariaPhotos">
+                <button type="button" aria-pressed="true" data-src="assets/v2/living.webp" data-alt="The living area and the kitchenette." aria-label="The living area and the kitchenette." data-i18n-dalt="dLiving"><img src="assets/v2/living-t.webp" alt="" loading="lazy"></button>
+                <button type="button" aria-pressed="false" data-src="assets/v2/studio.webp" data-alt="The whole studio, looking towards the balcony." aria-label="The whole studio, looking towards the balcony." data-i18n-dalt="dStudio"><img src="assets/v2/studio-t.webp" alt="" loading="lazy"></button>
+                <button type="button" aria-pressed="false" data-src="assets/v2/armchair.webp" data-alt="An armchair with sea-coloured cushions." aria-label="An armchair with sea-coloured cushions." data-i18n-dalt="dArmchair"><img src="assets/v2/armchair-t.webp" alt="" loading="lazy"></button>
               </div>
             </div>
           </div>
@@ -388,14 +407,14 @@
         </figure>
         <figure class="zone zone--b" data-zone>
           <div class="zone__frame">
-            <img src="assets/v2/bed.webp" width="677" height="900" alt="The double bed with a white headboard and navy cushions." loading="lazy" decoding="async">
+            <img src="assets/v2/bed.webp" width="677" height="900" alt="The double bed with a white headboard and navy cushions." data-i18n-alt="altBed" loading="lazy" decoding="async">
             <div class="zone__label">
               <span class="kick" data-i18n="z2k">Sleep &amp; shower</span>
               <h3 data-i18n-html="z2h">Anchors and <em>stars</em></h3>
-              <div class="thumbs" role="group" aria-label="Photos">
-                <button type="button" aria-pressed="true" data-src="assets/v2/bed.webp" data-alt="The double bed."><img src="assets/v2/bed-t.webp" alt="" loading="lazy"></button>
-                <button type="button" aria-pressed="false" data-src="assets/v2/headboard.webp" data-alt="Reading lamp on the wooden headboard."><img src="assets/v2/headboard-t.webp" alt="" loading="lazy"></button>
-                <button type="button" aria-pressed="false" data-src="assets/v2/shower.webp" data-alt="The walk-in shower."><img src="assets/v2/shower-t.webp" alt="" loading="lazy"></button>
+              <div class="thumbs" role="group" aria-label="Photos" data-i18n-aria="ariaPhotos">
+                <button type="button" aria-pressed="true" data-src="assets/v2/bed.webp" data-alt="The double bed." aria-label="The double bed." data-i18n-dalt="dBed"><img src="assets/v2/bed-t.webp" alt="" loading="lazy"></button>
+                <button type="button" aria-pressed="false" data-src="assets/v2/headboard.webp" data-alt="Reading lamp on the wooden headboard." aria-label="Reading lamp on the wooden headboard." data-i18n-dalt="dHeadboard"><img src="assets/v2/headboard-t.webp" alt="" loading="lazy"></button>
+                <button type="button" aria-pressed="false" data-src="assets/v2/shower.webp" data-alt="The walk-in shower." aria-label="The walk-in shower." data-i18n-dalt="dShower"><img src="assets/v2/shower-t.webp" alt="" loading="lazy"></button>
               </div>
             </div>
           </div>
@@ -403,14 +422,14 @@
         </figure>
         <figure class="zone zone--c" data-zone>
           <div class="zone__frame">
-            <img src="assets/v2/table.webp" width="1280" height="853" alt="The balcony table set with glasses and a bottle, the sea and coast behind the blue rail." loading="lazy" decoding="async">
+            <img src="assets/v2/table.webp" width="1280" height="853" alt="The balcony table set with glasses and a bottle, the sea and coast behind the blue rail." data-i18n-alt="altTable" loading="lazy" decoding="async">
             <div class="zone__label">
               <span class="kick" data-i18n="z3k">The balcony</span>
               <h3 data-i18n-html="z3h">Breakfast, <em>twelve floors up</em></h3>
-              <div class="thumbs" role="group" aria-label="Photos">
-                <button type="button" aria-pressed="true" data-src="assets/v2/table.webp" data-alt="The balcony table and the sea."><img src="assets/v2/table-t.webp" alt="" loading="lazy"></button>
-                <button type="button" aria-pressed="false" data-src="assets/v2/chairs.webp" data-alt="Balcony chairs and a lounger."><img src="assets/v2/chairs-t.webp" alt="" loading="lazy"></button>
-                <button type="button" aria-pressed="false" data-src="assets/v2/dusk.webp" data-alt="Dusk from the balcony."><img src="assets/v2/dusk-t.webp" alt="" loading="lazy"></button>
+              <div class="thumbs" role="group" aria-label="Photos" data-i18n-aria="ariaPhotos">
+                <button type="button" aria-pressed="true" data-src="assets/v2/table.webp" data-alt="The balcony table and the sea." aria-label="The balcony table and the sea." data-i18n-dalt="dTable"><img src="assets/v2/table-t.webp" alt="" loading="lazy"></button>
+                <button type="button" aria-pressed="false" data-src="assets/v2/chairs.webp" data-alt="Balcony chairs and a lounger." aria-label="Balcony chairs and a lounger." data-i18n-dalt="dChairs"><img src="assets/v2/chairs-t.webp" alt="" loading="lazy"></button>
+                <button type="button" aria-pressed="false" data-src="assets/v2/dusk.webp" data-alt="Dusk from the balcony." aria-label="Dusk from the balcony." data-i18n-dalt="dDusk"><img src="assets/v2/dusk-t.webp" alt="" loading="lazy"></button>
               </div>
             </div>
           </div>
@@ -422,7 +441,7 @@
         <li><b data-i18n="fSleep">Guests</b><span data-i18n="fSleepV">2 adults (21+)</span></li>
         <li><b data-i18n="fIn">Check-in</b><span data-i18n="fInV">Key box, any time from 15:00</span></li>
         <li><b data-i18n="fOut">Check-out</b><span data-i18n="fOutV">By 11:00</span></li>
-        <li><b data-i18n="fAlso">Also</b><span data-i18n="fAlsoV">Wifi, TV, non-smoking</span></li>
+        <li><b data-i18n="fAlso">Also</b><span data-i18n="fAlsoV">Wifi, TV. Smoking on the balcony only</span></li>
       </ul>
     </div>
   </section>
@@ -430,20 +449,20 @@
   <!-- 4 · downstairs -->
   <section id="down" class="down sec" data-tone="paper">
     <div class="wrap grid">
-      <div class="txt" data-sc-in data-sc-stagger="60">
+      <div class="txt">
         <span class="kick">16:00 · <span data-i18n="kDown">Downstairs</span></span>
         <h2 data-i18n-html="downH">Twelve floors down, <em>the pool.</em></h2>
         <p class="lede" data-i18n="downP">The Paraíso del Sur pool, refurbished in 2026, with loungers and parasols round it. The building also has a massage centre with some spa facilities.</p>
       </div>
-      <figure class="p1" data-sc-reveal="up" data-sc-reveal-at="0 0.5"><img src="assets/v2/pool.webp" width="1280" height="853" alt="The large pool at Paraíso del Sur with loungers and parasols under a blue sky." loading="lazy" decoding="async"></figure>
-      <figure class="p2"><img src="assets/v2/pool2.webp" width="1280" height="853" alt="The pool with the building's terraces behind it." loading="lazy" decoding="async"></figure>
+      <figure class="p1"><img src="assets/v2/pool.webp" width="1280" height="853" alt="The large pool at Paraíso del Sur with loungers and parasols under a blue sky." data-i18n-alt="altPool" loading="lazy" decoding="async"></figure>
+      <figure class="p2"><img src="assets/v2/pool2.webp" width="1280" height="853" alt="The pool with the building's terraces behind it." data-i18n-alt="altPool2" loading="lazy" decoding="async"></figure>
     </div>
   </section>
 
   <!-- 5 · guests -->
   <section id="guests" class="guests" data-tone="paper">
     <div class="wrap">
-      <span class="kick" data-i18n="kGuests">What guests wrote</span>
+      <h2 class="kick" data-i18n="kGuests">What guests wrote</h2>
       <div class="quotes" data-sc-in data-sc-stagger="80">
         <blockquote class="quote" lang="en"><p>“The view from the balcony is absolutely stunning and worth the stay in itself.”</p><footer data-i18n="q1f">Guest review on Booking.com · June 2026</footer></blockquote>
         <blockquote class="quote" lang="en"><p>“Nice size balcony with amazing views of the sunset in the evening.”</p><footer data-i18n="q2f">Guest review on Booking.com · February 2025</footer></blockquote>
@@ -456,23 +475,23 @@
   <!-- 6 · around -->
   <section id="around" class="around sec" data-tone="paper">
     <div class="wrap grid">
-      <div data-sc-in data-sc-stagger="50">
+      <div>
         <span class="kick">17:30 · <span data-i18n="kAround">Around you</span></span>
         <h2 data-i18n-html="aroundH">Where <em>you are</em></h2>
         <p class="lede" data-i18n="aroundP">Playa Paraíso is on the quiet south-west coast of Tenerife, between Costa Adeje and the cliffs of Los Gigantes.</p>
-        <ul class="places">
-          <li data-place="flat"><b data-i18n="pBeach">Two small beaches</b><span data-i18n="pBeachT">5 min on foot</span></li>
-          <li data-place="fanabe"><b data-i18n="pAdeje">Costa Adeje beaches</b><span data-i18n="pAdejeT">15 min by car</span></li>
-          <li data-place="caleta"><b>La Caleta</b><span data-i18n="pCaletaT">15 min by car</span></li>
-          <li data-place="cristianos"><b>Los Cristianos</b><span data-i18n="pCristT">20 min by car</span></li>
-          <li data-place="gigantes"><b>Los Gigantes</b><span data-i18n="pGigT">25 min by car</span></li>
-          <li data-place="airport"><b data-i18n="pAir">Tenerife South airport</b><span data-i18n="pAirT">25 min by car</span></li>
-          <li data-place="cablecar"><b data-i18n="pTeide">Teide cable car</b><span data-i18n="pTeideT">1 h by car</span></li>
+        <ul class="places" data-sc-in data-sc-stagger="40">
+          <li data-place="flat"><button type="button" class="place" aria-pressed="false"><b data-i18n="pBeach">Two small beaches</b><span data-i18n="pBeachT">5 min on foot</span></button></li>
+          <li data-place="fanabe"><button type="button" class="place" aria-pressed="false"><b data-i18n="pAdeje">Costa Adeje beaches</b><span data-i18n="pAdejeT">15 min by car</span></button></li>
+          <li data-place="caleta"><button type="button" class="place" aria-pressed="false"><b>La Caleta</b><span data-i18n="pCaletaT">15 min by car</span></button></li>
+          <li data-place="cristianos"><button type="button" class="place" aria-pressed="false"><b>Los Cristianos</b><span data-i18n="pCristT">20 min by car</span></button></li>
+          <li data-place="gigantes"><button type="button" class="place" aria-pressed="false"><b>Los Gigantes</b><span data-i18n="pGigT">25 min by car</span></button></li>
+          <li data-place="airport"><button type="button" class="place" aria-pressed="false"><b data-i18n="pAir">Tenerife South airport</b><span data-i18n="pAirT">25 min by car</span></button></li>
+          <li data-place="cablecar"><button type="button" class="place" aria-pressed="false"><b data-i18n="pTeide">Teide cable car</b><span data-i18n="pTeideT">1 h by car</span></button></li>
         </ul>
         <p class="fine" data-i18n="aroundFine">Approximate times without traffic, from OpenStreetMap.</p>
         <p class="note" data-i18n-html="outNote"><b>Our own guide is in the works:</b> where we eat, swim and take friends. When it is ready, a QR code in the studio will open it.</p>
       </div>
-      <figure class="map" aria-label="Map of south-west Tenerife and La Gomera with the studio marked.">
+      <figure class="map" role="img" aria-label="Map of south-west Tenerife and La Gomera with the studio marked." data-i18n-aria="ariaMap">
         <svg viewBox="70 225 680 400" role="img" aria-hidden="true"></svg>
         <figcaption>© OpenStreetMap · Natural Earth</figcaption>
       </figure>
@@ -491,19 +510,19 @@
       <img class="pl pl--gold" src="assets/pano-land-gold.webp" width="5500" height="1425" alt="" loading="lazy" decoding="async" style="opacity:0">
       <img class="pl pl--dusk" src="assets/pano-land-dusk.webp" width="5500" height="1425" alt="" loading="lazy" decoding="async" style="opacity:0">
       <div class="glitter" aria-hidden="true"><i></i></div>
-      <div class="real"><img src="assets/v2/sunset.webp" width="1199" height="900" alt="A real sunset photographed from the balcony: the sun over the sea, the cove and the terraced hotel below." loading="lazy" decoding="async"></div>
+      <div class="real"><img src="assets/v2/sunset.webp" width="1199" height="900" alt="A real sunset photographed from the balcony: the sun over the sea, the cove and the terraced hotel below." data-i18n-alt="altSunset" loading="lazy" decoding="async"></div>
       <div class="scrim" aria-hidden="true"></div>
       <div class="sc-copy" data-sc-cue="0 0.34 0 0.1">
         <span class="kick"><span data-i18n="tonight">Tonight in Playa Paraíso the sun sets at</span> <time class="js-sunset-time">18:14</time></span>
         <h2 data-i18n-html="sunH1">Keep scrolling. <em>You're setting it.</em></h2>
       </div>
       <div class="sc-copy" data-sc-cue="0.38 0.7 0.12 0.1">
-        <h2 data-i18n-html="sunH2">Every evening, <em>from your balcony.</em></h2>
+        <p class="h2" data-i18n-html="sunH2">Every evening, <em>from your balcony.</em></p>
         <p class="s" data-i18n="sunP">The sun goes into the sea a little further along the horizon each week, and behind La Gomera in spring and late summer.</p>
       </div>
       <div class="sc-copy" data-sc-cue="0.76 1 0.1 0.02">
         <span class="kick" data-i18n="realK">And this one is real</span>
-        <h2 data-i18n-html="sunH3">Photographed <em>from the balcony.</em></h2>
+        <p class="h2" data-i18n-html="sunH3">Photographed <em>from the balcony.</em></p>
       </div>
       <p class="credit" data-i18n="credit">Until the photo: an illustration on our daytime photo. The sun's position and time are calculated for today.</p>
     </div>
@@ -511,8 +530,7 @@
 
   <!-- 8 · book -->
   <section id="book" class="book" data-tone="paper">
-    <div class="wrap" data-sc-in data-sc-stagger="60">
-      <span class="kick" data-i18n="kBook">Book</span>
+    <div class="wrap">
       <h2 data-i18n-html="bookH">Your balcony, <em>any night you like.</em></h2>
       <p class="lede" data-i18n="bookP">Check prices and dates on Booking.com, or message us on WhatsApp to ask anything first.</p>
       <div class="ctas">
@@ -523,7 +541,7 @@
         <li data-i18n="r1">Adults only (21+)</li>
         <li data-i18n="r2">Up to 2 guests</li>
         <li data-i18n="r3">Self check-in from 15:00</li>
-        <li data-i18n="r5">Non-smoking</li>
+        <li data-i18n="r5">No smoking inside, the balcony is fine</li>
         <li data-i18n="r4">Prices on Booking.com</li>
       </ul>
     </div>
@@ -532,7 +550,7 @@
       <footer class="wrap foot">
         <span>Ocean View Studio · Paraíso del Sur · Playa Paraíso, Adeje, Tenerife</span>
         <span><span data-i18n="licence">Licence number</span>: 4000293950362</span>
-        <span>+34 602 52 77 60</span>
+        <a href="tel:+34602527760">+34 602 52 77 60</a>
       </footer>
     </div>
   </section>
@@ -566,7 +584,7 @@
       z1k: 'Living & kitchen', z1h: 'Coffee with a <em>sea view</em>', z1c: 'Fridge, microwave, kettle, coffee maker and toaster. Portable air-con, free to use.',
       z2k: 'Sleep & shower', z2h: 'Anchors and <em>stars</em>', z2c: 'A double bed, and a bathroom with a walk-in shower.',
       z3k: 'The balcony', z3h: 'Breakfast, <em>twelve floors up</em>', z3c: 'A table, two chairs and a lounger, facing west over the sea.',
-      fSleep: 'Guests', fSleepV: '2 adults (21+)', fIn: 'Check-in', fInV: 'Key box, any time from 15:00', fOut: 'Check-out', fOutV: 'By 11:00', fAlso: 'Also', fAlsoV: 'Wifi, TV, non-smoking',
+      fSleep: 'Guests', fSleepV: '2 adults (21+)', fIn: 'Check-in', fInV: 'Key box, any time from 15:00', fOut: 'Check-out', fOutV: 'By 11:00', fAlso: 'Also', fAlsoV: 'Wifi, TV. Smoking on the balcony only',
       kDown: 'Downstairs', downH: 'Twelve floors down, <em>the pool.</em>',
       downP: 'The Paraíso del Sur pool, refurbished in 2026, with loungers and parasols round it. The building also has a massage centre with some spa facilities.',
       kGuests: 'What guests wrote', q1f: 'Guest review on Booking.com · June 2026', q2f: 'Guest review on Booking.com · February 2025', q3f: 'Guest review on Booking.com · September 2025',
@@ -584,9 +602,10 @@
       credit: "Until the photo: an illustration on our daytime photo. The sun's position and time are calculated for today.",
       kBook: 'Book', bookH: 'Your balcony, <em>any night you like.</em>',
       bookP: 'Check prices and dates on Booking.com, or message us on WhatsApp to ask anything first.',
-      r1: 'Adults only (21+)', r2: 'Up to 2 guests', r3: 'Self check-in from 15:00', r4: 'Prices on Booking.com', r5: 'Non-smoking',
+      r1: 'Adults only (21+)', r2: 'Up to 2 guests', r3: 'Self check-in from 15:00', r4: 'Prices on Booking.com', r5: 'No smoking inside, the balcony is fine',
       licence: 'Licence number',
       map: { gomera: 'La Gomera', sea: 'Atlantic', flat: 'Ocean View Studio', cristianos: 'Los Cristianos', gigantes: 'Los Gigantes', caleta: 'La Caleta', fanabe: 'Costa Adeje', airport: 'Airport (TFS)', cablecar: 'Teide' },
+      a11y: { altRoom: "The studio's living room, looking through the glass doors to the balcony, the sea and La Gomera.", altPano: 'Daytime panorama from the balcony: the Atlantic, La Gomera on the horizon, a small beach below the cliff, white terraced hotels and the hills inland.', altLiving: 'The living area with an armchair, the kitchenette behind it and a sea painting on the wall.', altBed: 'The double bed with a white headboard and navy cushions.', altTable: 'The balcony table set with glasses and a bottle, the sea and coast behind the blue rail.', altPool: 'The large pool at Paraíso del Sur with loungers and parasols under a blue sky.', altPool2: "The pool with the building's terraces behind it.", altSunset: 'A real sunset photographed from the balcony: the sun over the sea, the cove and the terraced hotel below.', dLiving: 'The living area and the kitchenette.', dStudio: 'The whole studio, looking towards the balcony.', dArmchair: 'An armchair with sea-coloured cushions.', dBed: 'The double bed.', dHeadboard: 'Reading lamp on the wooden headboard.', dShower: 'The walk-in shower.', dTable: 'The balcony table and the sea.', dChairs: 'Balcony chairs and a lounger.', dDusk: 'Dusk from the balcony.', ariaSections: 'Sections', ariaLang: 'Language', ariaBook: 'Book', ariaPhotos: 'Photos', ariaMap: 'Map of south-west Tenerife and La Gomera with the studio marked.', ariaPano: 'Panorama from the balcony' },
       bookingSuffix: 'en-gb.html'
     },
     es: {
@@ -607,7 +626,7 @@
       z1k: 'Salón y cocina', z1h: 'Café con <em>vistas al mar</em>', z1c: 'Nevera, microondas, hervidor, cafetera y tostadora. Aire acondicionado portátil, gratis.',
       z2k: 'Dormir y ducha', z2h: 'Anclas y <em>estrellas</em>', z2c: 'Cama de matrimonio y un baño con ducha a ras de suelo.',
       z3k: 'El balcón', z3h: 'Desayuno <em>a doce plantas de altura</em>', z3c: 'Mesa, dos sillas y una tumbona, mirando al oeste sobre el mar.',
-      fSleep: 'Huéspedes', fSleepV: '2 adultos (21+)', fIn: 'Entrada', fInV: 'Caja de llaves, desde las 15:00', fOut: 'Salida', fOutV: 'Antes de las 11:00', fAlso: 'Además', fAlsoV: 'Wifi, TV, no fumadores',
+      fSleep: 'Huéspedes', fSleepV: '2 adultos (21+)', fIn: 'Entrada', fInV: 'Caja de llaves, desde las 15:00', fOut: 'Salida', fOutV: 'Antes de las 11:00', fAlso: 'Además', fAlsoV: 'Wifi, TV. Se fuma solo en el balcón',
       kDown: 'Abajo', downH: 'Doce plantas más abajo, <em>la piscina.</em>',
       downP: 'La piscina de Paraíso del Sur, renovada en 2026, con tumbonas y sombrillas. En el edificio hay además un centro de masajes con algunas instalaciones de spa.',
       kGuests: 'Lo que escriben los huéspedes', q1f: 'Opinión en Booking.com · junio de 2026', q2f: 'Opinión en Booking.com · febrero de 2025', q3f: 'Opinión en Booking.com · septiembre de 2025',
@@ -625,9 +644,10 @@
       credit: 'Hasta la foto: una ilustración sobre nuestra foto de día. La posición y la hora del sol están calculadas para hoy.',
       kBook: 'Reservar', bookH: 'Tu balcón, <em>la noche que quieras.</em>',
       bookP: 'Consulta precios y fechas en Booking.com, o escríbenos por WhatsApp si quieres preguntar algo antes.',
-      r1: 'Solo adultos (21+)', r2: 'Hasta 2 huéspedes', r3: 'Entrada autónoma desde las 15:00', r4: 'Precios en Booking.com', r5: 'No fumadores',
+      r1: 'Solo adultos (21+)', r2: 'Hasta 2 huéspedes', r3: 'Entrada autónoma desde las 15:00', r4: 'Precios en Booking.com', r5: 'No se fuma dentro; en el balcón, sí',
       licence: 'Número de licencia',
       map: { gomera: 'La Gomera', sea: 'Atlántico', flat: 'Ocean View Studio', cristianos: 'Los Cristianos', gigantes: 'Los Gigantes', caleta: 'La Caleta', fanabe: 'Costa Adeje', airport: 'Aeropuerto (TFS)', cablecar: 'Teide' },
+      a11y: { altRoom: 'El salón del estudio, mirando por las puertas de cristal hacia el balcón, el mar y La Gomera.', altPano: 'Panorámica de día desde el balcón: el Atlántico, La Gomera en el horizonte, una pequeña playa bajo el acantilado, hoteles blancos en terrazas y las montañas.', altLiving: 'La zona de estar con un sillón, la cocina detrás y un cuadro del mar en la pared.', altBed: 'La cama de matrimonio con cabecero blanco y cojines azul marino.', altTable: 'La mesa del balcón con copas y una botella, y el mar y la costa tras la barandilla azul.', altPool: 'La gran piscina de Paraíso del Sur con tumbonas y sombrillas bajo el cielo azul.', altPool2: 'La piscina con las terrazas del edificio detrás.', altSunset: 'Un atardecer real fotografiado desde el balcón: el sol sobre el mar, la cala y el hotel en terrazas.', dLiving: 'La zona de estar y la cocina.', dStudio: 'Todo el estudio, mirando hacia el balcón.', dArmchair: 'Un sillón con cojines de colores marinos.', dBed: 'La cama de matrimonio.', dHeadboard: 'Lámpara de lectura en el cabecero de madera.', dShower: 'La ducha a ras de suelo.', dTable: 'La mesa del balcón y el mar.', dChairs: 'Sillas del balcón y una tumbona.', dDusk: 'Anochecer desde el balcón.', ariaSections: 'Secciones', ariaLang: 'Idioma', ariaBook: 'Reservar', ariaPhotos: 'Fotos', ariaMap: 'Mapa del suroeste de Tenerife y La Gomera con el estudio marcado.', ariaPano: 'Panorámica desde el balcón' },
       bookingSuffix: 'es.html'
     },
     de: {
@@ -636,7 +656,7 @@
       nView: 'Der Blick', nStudio: 'Das Studio', nGuests: 'Gäste', nAround: 'Lage',
       h1: 'Der Atlantik, aus dem <em>12. Stock.</em>',
       heroLede: 'Ein Studio für zwei, mit dem Meer und La Gomera vor dem Fenster.',
-      fromSofa: 'So sieht es <em>vom Sofa aus aus.</em>',
+      fromSofa: 'Das ist der Blick <em>vom Sofa.</em>',
       kView: 'Der Blick', viewH: 'Was vor <em>dem Balkon liegt</em>',
       viewP: 'Zusammengesetzt aus einem Handyvideo vom Balkon. Links das offene Meer, rechts die Küste und die Berge.',
       t1: 'Der Atlantik', t1s: 'Direkt vor dem Balkon.', t2: 'Zwei kleine Strände', t2s: 'Am Fuß der Klippe, etwa fünf Minuten zu Fuß.',
@@ -648,7 +668,7 @@
       z1k: 'Wohnen & Küche', z1h: 'Kaffee mit <em>Meerblick</em>', z1c: 'Kühlschrank, Mikrowelle, Wasserkocher, Kaffeemaschine und Toaster. Mobile Klimaanlage, kostenlos.',
       z2k: 'Schlafen & Dusche', z2h: 'Anker und <em>Sterne</em>', z2c: 'Ein Doppelbett und ein Bad mit ebenerdiger Dusche.',
       z3k: 'Der Balkon', z3h: 'Frühstück, <em>zwölf Stockwerke hoch</em>', z3c: 'Ein Tisch, zwei Stühle und eine Liege, nach Westen über das Meer.',
-      fSleep: 'Gäste', fSleepV: '2 Erwachsene (21+)', fIn: 'Check-in', fInV: 'Schlüsselbox, ab 15:00 Uhr', fOut: 'Check-out', fOutV: 'Bis 11:00 Uhr', fAlso: 'Außerdem', fAlsoV: 'WLAN, TV, Nichtraucher',
+      fSleep: 'Gäste', fSleepV: '2 Erwachsene (21+)', fIn: 'Check-in', fInV: 'Schlüsselbox, ab 15:00 Uhr', fOut: 'Check-out', fOutV: 'Bis 11:00 Uhr', fAlso: 'Außerdem', fAlsoV: 'WLAN, TV. Rauchen nur auf dem Balkon',
       kDown: 'Unten', downH: 'Zwölf Stockwerke tiefer: <em>der Pool.</em>',
       downP: 'Der Pool von Paraíso del Sur, 2026 renoviert, mit Liegen und Sonnenschirmen. Im Gebäude gibt es außerdem ein Massagezentrum mit etwas Spa.',
       kGuests: 'Was Gäste schreiben', q1f: 'Gästebewertung auf Booking.com · Juni 2026', q2f: 'Gästebewertung auf Booking.com · Februar 2025', q3f: 'Gästebewertung auf Booking.com · September 2025',
@@ -666,9 +686,10 @@
       credit: 'Bis zum Foto: eine Illustration auf unserem Tagesfoto. Sonnenstand und Uhrzeit sind für heute berechnet.',
       kBook: 'Buchen', bookH: 'Dein Balkon, <em>an jedem Abend.</em>',
       bookP: 'Preise und freie Termine auf Booking.com, oder schreib uns vorher auf WhatsApp, wenn du etwas fragen möchtest.',
-      r1: 'Nur Erwachsene (21+)', r2: 'Bis zu 2 Gäste', r3: 'Self-Check-in ab 15:00 Uhr', r4: 'Preise auf Booking.com', r5: 'Nichtraucher',
+      r1: 'Nur Erwachsene (21+)', r2: 'Bis zu 2 Gäste', r3: 'Self-Check-in ab 15:00 Uhr', r4: 'Preise auf Booking.com', r5: 'Rauchen nur auf dem Balkon',
       licence: 'Lizenznummer',
       map: { gomera: 'La Gomera', sea: 'Atlantik', flat: 'Ocean View Studio', cristianos: 'Los Cristianos', gigantes: 'Los Gigantes', caleta: 'La Caleta', fanabe: 'Costa Adeje', airport: 'Flughafen (TFS)', cablecar: 'Teide' },
+      a11y: { altRoom: 'Das Wohnzimmer des Studios, mit Blick durch die Glastüren auf den Balkon, das Meer und La Gomera.', altPano: 'Tagespanorama vom Balkon: der Atlantik, La Gomera am Horizont, ein kleiner Strand unter der Klippe, weiße Terrassenhotels und die Berge.', altLiving: 'Der Wohnbereich mit Sessel, dahinter die Küchenzeile und ein Meeresbild an der Wand.', altBed: 'Das Doppelbett mit weißem Kopfteil und dunkelblauen Kissen.', altTable: 'Der Balkontisch mit Gläsern und einer Flasche, dahinter Meer und Küste hinter dem blauen Geländer.', altPool: 'Der große Pool von Paraíso del Sur mit Liegen und Sonnenschirmen unter blauem Himmel.', altPool2: 'Der Pool mit den Terrassen des Gebäudes dahinter.', altSunset: 'Ein echter Sonnenuntergang, vom Balkon fotografiert: die Sonne über dem Meer, die Bucht und das Terrassenhotel.', dLiving: 'Wohnbereich und Küchenzeile.', dStudio: 'Das ganze Studio, Blick zum Balkon.', dArmchair: 'Ein Sessel mit meerfarbenen Kissen.', dBed: 'Das Doppelbett.', dHeadboard: 'Leselampe am Holzkopfteil.', dShower: 'Die ebenerdige Dusche.', dTable: 'Der Balkontisch und das Meer.', dChairs: 'Balkonstühle und eine Liege.', dDusk: 'Abenddämmerung vom Balkon.', ariaSections: 'Bereiche', ariaLang: 'Sprache', ariaBook: 'Buchen', ariaPhotos: 'Fotos', ariaMap: 'Karte des Südwestens von Teneriffa und La Gomera mit dem Studio.', ariaPano: 'Panorama vom Balkon' },
       bookingSuffix: 'de.html'
     }
   };
@@ -705,6 +726,14 @@
     var t = T[l]; lang = l; document.documentElement.lang = l;
     document.querySelectorAll('[data-i18n]').forEach(function (el) { var k = el.getAttribute('data-i18n'); if (t[k] != null) el.textContent = t[k]; });
     document.querySelectorAll('[data-i18n-html]').forEach(function (el) { var k = el.getAttribute('data-i18n-html'); if (t[k] != null) el.innerHTML = t[k]; });
+    var A = (t.a11y || {});
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { var v = A[el.getAttribute('data-i18n-alt')]; if (v) el.alt = v; });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { var v = A[el.getAttribute('data-i18n-aria')]; if (v) el.setAttribute('aria-label', v); });
+    document.querySelectorAll('[data-i18n-dalt]').forEach(function (el) {
+      var v = A[el.getAttribute('data-i18n-dalt')]; if (!v) return;
+      el.dataset.alt = v; el.setAttribute('aria-label', v);
+      if (el.getAttribute('aria-pressed') === 'true') { var z = el.closest('[data-zone]'); if (z) z.querySelector('.zone__frame > img').alt = v; }
+    });
     document.querySelectorAll('.js-booking').forEach(function (a) { a.href = BOOK + t.bookingSuffix + (a.href.indexOf('#tab-reviews') > -1 ? '#tab-reviews' : ''); });
     document.querySelectorAll('.js-wa').forEach(function (a) { a.href = WA + encodeURIComponent(t.waText); });
     document.querySelectorAll('.langs button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
@@ -712,18 +741,33 @@
     try { localStorage.setItem('ovs-lang', l); } catch (e) {}
     dispatchEvent(new Event('resize'));
   }
-  document.querySelectorAll('.langs button').forEach(function (b) { b.addEventListener('click', function () { applyLang(b.dataset.lang); }); });
+  document.querySelectorAll('.langs button').forEach(function (b) { b.addEventListener('click', function () {
+    if (b.dataset.lang === lang) return;
+    if (document.startViewTransition && !reduce) document.startViewTransition(function () { applyLang(b.dataset.lang); });
+    else applyLang(b.dataset.lang);
+  }); });
 
-  /* zone thumbnails swap the main photo */
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* zone thumbnails: the chosen thumbnail grows into the main photo */
   document.querySelectorAll('[data-zone]').forEach(function (z) {
     var main = z.querySelector('.zone__frame > img');
     z.querySelectorAll('.thumbs button').forEach(function (b) {
       b.addEventListener('click', function () {
         if (b.getAttribute('aria-pressed') === 'true') return;
         z.querySelectorAll('.thumbs button').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
-        main.style.opacity = '0';
+        var thumb = b.querySelector('img');
         var im = new Image(); im.src = b.dataset.src;
-        im.onload = function () { main.src = b.dataset.src; main.alt = b.dataset.alt; main.style.opacity = '1'; };
+        (im.decode ? im.decode() : Promise.resolve()).catch(function () {}).then(function () {
+          function swap() { main.src = b.dataset.src; main.alt = b.dataset.alt; }
+          if (document.startViewTransition && !reduce) {
+            thumb.style.viewTransitionName = 'zone-photo';
+            var vt = document.startViewTransition(function () { thumb.style.viewTransitionName = ''; main.style.viewTransitionName = 'zone-photo'; swap(); });
+            vt.finished.finally(function () { main.style.viewTransitionName = ''; });
+          } else {
+            swap();
+            if (main.animate) main.animate([{ opacity: 0.35 }, { opacity: 1 }], { duration: 220, easing: 'ease-out' });
+          }
+        });
       });
     });
   });
@@ -750,33 +794,61 @@
   var LABELS = {   // label offsets
     gigantes: [-14, -12, 'end'], caleta: [-14, 18, 'end'], fanabe: [12, 4, 'start'], cristianos: [-10, 22, 'end'], airport: [12, 5, 'start'], cablecar: [12, -6, 'start']
   };
+  function fitMap() {
+    svg.setAttribute('viewBox', innerWidth <= 860 ? '300 290 400 330' : '70 225 680 400');
+  }
+  addEventListener('resize', fitMap);
   function drawMap() {
+    fitMap();
     var t = T[lang].map, h = '';
     land.forEach(function (d) { h += '<path class="land" d="' + d + '"/>'; });
     var g = P('gomera'); h += '<text class="lab lab--isle" x="' + (g[0] - 40) + '" y="' + (g[1] + 6) + '">' + t.gomera + '</text>';
-    h += '<text class="lab lab--sea" x="250" y="590">' + t.sea + '</text>';
+    h += '<text class="lab lab--sea" x="' + (innerWidth <= 860 ? 330 : 250) + '" y="' + (innerWidth <= 860 ? 560 : 560) + '">' + t.sea + '</text>';
     Object.keys(LABELS).forEach(function (k) {
       var p = P(k), o = LABELS[k];
       h += '<circle class="dot" data-dot="' + k + '" cx="' + p[0] + '" cy="' + p[1] + '" r="5.5"/>';
       h += '<text class="lab' + (k === 'fanabe' || k === 'caleta' ? ' lab--opt' : '') + '" x="' + (p[0] + o[0]) + '" y="' + (p[1] + o[1]) + '" text-anchor="' + o[2] + '">' + t[k] + '</text>';
     });
+    h = h.replace('<circle class="dot"', '<path class="route" d=""/><text class="lab lab--time" x="0" y="0"></text><circle class="dot"');
     var f = P('flat');
     h += '<circle class="home-ring" cx="' + f[0] + '" cy="' + f[1] + '" r="18"/><circle class="home" data-dot="flat" cx="' + f[0] + '" cy="' + f[1] + '" r="8"/>';
     h += '<text class="lab" x="' + (f[0] - 26) + '" y="' + (f[1] + 4) + '" text-anchor="end">' + t.flat + '</text>';
     svg.innerHTML = h;
   }
+  // choosing a place draws the route from the studio, so the time has a direction
+  var pinned = null;
+  function showPlace(k, timeText) {
+    var route = svg.querySelector('.route'), tl = svg.querySelector('.lab--time'), ring = svg.querySelector('.home-ring');
+    svg.querySelectorAll('.dot').forEach(function (d) { d.classList.toggle('is-hot', d.dataset.dot === k); });
+    document.querySelectorAll('.places li').forEach(function (li) { li.classList.toggle('is-hot', li.dataset.place === k); });
+    ring.classList.toggle('is-on', k === 'flat');
+    if (!k || k === 'flat') { route.classList.remove('is-on'); tl.classList.remove('is-on'); return; }
+    var a = P('flat'), b = P(k), mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+    var dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy);
+    var bend = Math.min(60, len * 0.22), cx = mx + dy / len * bend, cy = my - dx / len * bend;
+    route.setAttribute('d', 'M' + a[0] + ',' + a[1] + ' Q' + cx.toFixed(1) + ',' + cy.toFixed(1) + ' ' + b[0] + ',' + b[1]);
+    var L = route.getTotalLength();
+    route.style.transition = 'none'; route.style.strokeDasharray = L; route.style.strokeDashoffset = reduce ? 0 : L;
+    route.getBoundingClientRect();
+    route.style.transition = ''; route.classList.add('is-on'); route.style.strokeDashoffset = 0;
+    tl.textContent = timeText; tl.setAttribute('x', cx.toFixed(1)); tl.setAttribute('y', (cy - 8).toFixed(1)); tl.setAttribute('text-anchor', 'middle');
+    tl.classList.remove('is-on'); tl.getBoundingClientRect(); tl.classList.add('is-on');
+  }
   document.querySelectorAll('.places li').forEach(function (li) {
-    function on(v) {
-      li.classList.toggle('is-hot', v);
-      var d = svg.querySelector('[data-dot="' + li.dataset.place + '"]');
-      if (d && li.dataset.place !== 'flat') d.classList.toggle('is-hot', v);
-    }
-    li.addEventListener('mouseenter', function () { on(true); });
-    li.addEventListener('mouseleave', function () { on(false); });
+    var btn = li.querySelector('.place'), k = li.dataset.place;
+    function time() { return btn.querySelector('span').textContent; }
+    btn.addEventListener('mouseenter', function () { if (!pinned) showPlace(k, time()); });
+    btn.addEventListener('mouseleave', function () { if (!pinned) showPlace(null); });
+    btn.addEventListener('focus', function () { if (!pinned) showPlace(k, time()); });
+    btn.addEventListener('blur', function () { if (!pinned) showPlace(null); });
+    btn.addEventListener('click', function () {
+      pinned = pinned === k ? null : k;
+      document.querySelectorAll('.places .place').forEach(function (o) { o.setAttribute('aria-pressed', String(o === btn && pinned === k)); });
+      showPlace(pinned, time());
+    });
   });
 
   /* geometry */
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var bar = document.querySelector('.bar'), dock = document.querySelector('.dock');
   var arrive = document.getElementById('arrive'), sunset = document.getElementById('sunset'), book = document.getElementById('book');
   var room = arrive.querySelector('.layer--room'), sky = arrive.querySelector('.layer--sky'), landL = arrive.querySelector('.layer--land');
@@ -785,7 +857,7 @@
     skyGold: sunset.querySelector('.sky--gold'), skyDusk: sunset.querySelector('.sky--dusk'),
     plDay: sunset.querySelector('.pl--day'), plGold: sunset.querySelector('.pl--gold'), plDusk: sunset.querySelector('.pl--dusk'),
     sun: sunset.querySelector('.sun'), glow: sunset.querySelector('.glow'), glit: sunset.querySelector('.glitter'),
-    real: sunset.querySelector('.real'), credit: sunset.querySelector('.credit')
+    real: sunset.querySelector('.real'), realImg: sunset.querySelector('.real img'), credit: sunset.querySelector('.credit')
   };
   var ROOM_W = 1080, ROOM_H = 1920, WIN_X = 435, WIN_Y = 555, PANO_OX = -1896, PANO_OY = 213;
   var vw = innerWidth, vh = innerHeight;
@@ -843,12 +915,21 @@
     S.glow.style.opacity = String(0.12 + 0.88 * Math.sin(Math.PI * clamp01(q * 1.05)));
     S.glit.style.opacity = String(clamp01((q - 0.15) / 0.3) * (1 - clamp01((q - 0.85) / 0.15) * 0.7));
     S.sun.style.opacity = String(1 - clamp01((q - 0.94) / 0.06));
-    var r = reduce ? clamp01((p - 0.7) / 0.08) : ease((p - 0.72) / 0.12);
-    S.real.style.opacity = String(r);
-    S.real.style.transform = reduce ? 'none' : 'scale(' + (1.06 - 0.06 * clamp01((p - 0.72) / 0.28)).toFixed(4) + ')';
+    // the real photo opens from the point where the drawn sun went down, with the real sun placed there
+    var r = reduce ? clamp01((p - 0.7) / 0.08) : ease((p - 0.7) / 0.18);
+    var hy = oy + HORIZON * F;
+    var c = Math.max(vw / 1199, vh / 900) * 1.06;
+    var tx = Math.min(0, Math.max(vw - 1199 * c, sx - 585 * c)), ty = Math.min(0, Math.max(vh - 900 * c, hy - 297 * c));
+    S.realImg.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) scale(' + c.toFixed(4) + ')';
+    var ix = tx + 585 * c, iy = ty + 262 * c;
+    var far = Math.hypot(Math.max(ix, vw - ix), Math.max(iy, vh - iy)) + 100;
+    S.real.style.visibility = r > 0 ? 'visible' : 'hidden';
+    if (reduce) { S.real.style.opacity = String(r); }
+    else { S.real.style.setProperty('--ix', ix.toFixed(0) + 'px'); S.real.style.setProperty('--iy', iy.toFixed(0) + 'px'); S.real.style.setProperty('--ir', (r * far).toFixed(0) + 'px'); }
     S.credit.style.opacity = String(1 - r);
+    if (reduce) dusk = clamp01((p - 0.7) / 0.08);
     var d = sunset.getBoundingClientRect().bottom < 0 ? 1 : dusk;
-    document.documentElement.style.setProperty('--dusk', d.toFixed(3));
+    setDusk(d);
   }
 
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
@@ -859,28 +940,38 @@
     nightEl.style.setProperty('--night-left', Math.min(0, Math.max(innerWidth - w, innerWidth / 2 - sx)).toFixed(0) + 'px');
   }
   function chrome() {
-    var mid = vh * 0.5, cur = sections[0];
-    sections.forEach(function (s) { if (s.getBoundingClientRect().top <= mid) cur = s; });
-    var tone = cur.dataset.tone;
-    if (cur === arrive) tone = prog(arrive) > 0.55 ? 'photo' : 'dark';
-    if (cur === sunset && sunset.getBoundingClientRect().top > vh * 0.5) tone = 'paper';
+    var mid = vh * 0.5, cur = sections[0], under = sections[0], bh = bar.offsetHeight;
+    sections.forEach(function (s) { var r = s.getBoundingClientRect(); if (r.top <= mid) cur = s; if (r.top <= bh) under = s; });
+    var tone = under.dataset.tone;
+    if (under === arrive) tone = prog(arrive) > 0.55 ? 'photo' : 'dark';
     bar.dataset.tone = tone;
     navLinks.forEach(function (a) { a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + cur.id)); });
     var heroGone = arrive.getBoundingClientRect().bottom < vh * 0.6;
     var bookIn = book.getBoundingClientRect().top < vh * 0.75;
-    dock.classList.toggle('is-on', heroGone && !bookIn);
+    var on = heroGone && !bookIn;
+    if (on !== dock.classList.contains('is-on')) {
+      dock.classList.toggle('is-on', on);
+      if (on) { dock.removeAttribute('inert'); dock.style.visibility = ''; }
+      else { dock.setAttribute('inert', ''); setTimeout(function () { if (!dock.classList.contains('is-on')) dock.style.visibility = 'hidden'; }, 280); }
+    }
   }
 
+  function setDusk(d) {
+    var root = document.documentElement;
+    root.style.setProperty('--dusk', d.toFixed(3));
+    if (d >= 0.5) root.setAttribute('data-night', ''); else root.removeAttribute('data-night');
+  }
   function frame() {
     if (arrive.getBoundingClientRect().bottom > -50) heroFrame(prog(arrive));
     var sr = sunset.getBoundingClientRect();
     if (sr.top < vh * 1.2 && sr.bottom > -vh * 0.2) sunsetFrame(prog(sunset));
-    else document.documentElement.style.setProperty('--dusk', sr.bottom <= -vh * 0.2 ? '1' : '0');
+    else setDusk(sr.bottom <= -vh * 0.2 ? 1 : 0);
     chrome();
   }
   function loop() { frame(); requestAnimationFrame(loop); }
   addEventListener('resize', function () { vw = innerWidth; vh = innerHeight; placeNight(); });
 
+  if (reduce) { var ps = document.querySelector('.js-pano-stage'); ps.setAttribute('tabindex', '0'); ps.setAttribute('role', 'region'); ps.setAttribute('data-i18n-aria', 'ariaPano'); ps.setAttribute('aria-label', 'Panorama'); }
   applyLang(lang);
   ScrollCraft.mount(document.body);
   placeNight();
