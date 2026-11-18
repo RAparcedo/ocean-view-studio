@@ -6,10 +6,10 @@
 <title>Joanna’s guide · Ocean View Studio, Playa Paraíso</title>
 <meta name="description" content="Where to eat, swim and go from Ocean View Studio in Playa Paraíso, Tenerife: the hosts’ own short list.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#f3f0ea">
+<meta name="theme-color" content="#0f1f2c">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2314202b'/><circle cx='16' cy='18' r='6' fill='%23f2a65a'/><rect x='5' y='19' width='22' height='8' fill='%231f4fa3'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root { --sc-canvas: #f3f0ea; --sc-surface: #e8e2d7; --sc-ink: #14202b; --sc-ink-soft: #59636d; --day-accent: #1f4fa3; --sc-accent: #1f4fa3; --sc-accent-ink: #f6f4ef; --sun: #f2a65a;
     --sc-hairline: color-mix(in oklab, #14202b 14%, transparent); --sc-font-display: "Instrument Serif", Georgia, serif; --sc-font-text: "Geist", system-ui, sans-serif;
@@ -147,6 +147,40 @@
   @keyframes ovsFabPing { 0% { box-shadow: 0 0 0 0 rgb(31 122 77 / .5); } 70%, 100% { box-shadow: 0 0 0 16px rgb(31 122 77 / 0); } }
   @media (max-width: 860px) { .wa-fab { display: none; } }
   @media print { .wa-fab { display: none; } }
+
+  /* ===== look B: Atlantic night ===== */
+  :root {
+    --day-canvas: #0f1f2c;  --dusk-canvas: #0c1620;
+    --day-surface: #172b3b; --dusk-surface: #142231;
+    --day-ink: #f2ece2;     --dusk-ink: #f2ece2;
+    --day-soft: #b9c2c9;    --dusk-soft: #b9c2c9;
+    --day-accent: #f2a65a;  --dusk-accent: #f2a65a;
+    --day-aink: #1a1206;    --dusk-aink: #1a1206;
+    --card: #1b3245;
+    --sc-font-display: "DM Serif Display", Georgia, serif;
+    --sc-font-text: "DM Sans", system-ui, sans-serif;
+  }
+  html { font-size: 106.25%; }
+  body { -webkit-font-smoothing: antialiased; }
+
+  :root { --sc-canvas: #0f1f2c; --sc-surface: #172b3b; --sc-ink: #f2ece2; --sc-ink-soft: #b9c2c9; --day-accent: #f2a65a; --sc-accent: #f2a65a; --sc-accent-ink: #1a1206;
+    --sc-hairline: rgb(242 236 226 / .12); }
+  .bar.is-paper { background: rgb(15 31 44 / .92); }
+  .toc { background: rgb(15 31 44 / .94); }
+  .toc a:hover, .toc a.is-on { background: var(--sun); color: #1a1206; border-color: var(--sun); }
+  .fav, .item { background: var(--card); border-color: rgb(255 255 255 / .08); box-shadow: 0 26px 46px -32px rgb(0 0 0 / .75); }
+  .fav p:not(.meta), .item p { color: #d9dde0; }
+  .fav__ic { background: rgb(242 166 90 / .16); color: var(--sun); }
+  .tip { background: var(--card); }
+  .acts a { border-color: rgb(242 236 226 / .2); }
+  .acts a:hover { border-color: var(--sun); background: rgb(242 166 90 / .1); }
+  .acts svg { color: var(--sun); }
+  .sig { color: var(--sun); }
+  .hello__p { font-size: clamp(1.35rem, 2.4vw, 2rem); line-height: 1.32; }
+  .fav h3 { font-size: 1.6rem; }
+  .item h3 { font-size: 1.4rem; }
+  .ghero h1 { font-style: normal; font-size: clamp(3rem, 7.5vw, 7rem); }
+  .langs .flag { box-shadow: 0 0 0 1px rgb(255 255 255 / .22), 0 1px 3px rgb(0 0 0 / .4); }
 
   @media (max-width: 860px) { .wa-fab { display: flex; padding: 0; justify-content: center; width: 3.6rem; } .wa-fab__l { display: none; } }
 </style>
