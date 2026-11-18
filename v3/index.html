@@ -386,6 +386,50 @@
   .motion .stars i { animation: ovsTwinkle var(--t, 4s) ease-in-out var(--dl, 0s) infinite; }
   @keyframes ovsTwinkle { 0%, 100% { opacity: .15; } 50% { opacity: .85; } }
 
+
+  /* flags instead of EN/ES/DE */
+  .langs { gap: .15rem; align-items: center; }
+  .langs button { display: inline-grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0; opacity: .62; text-decoration: none !important;
+    transition: opacity 160ms var(--sc-ease-out), transform 200ms cubic-bezier(.3,1.6,.5,1); }
+  .langs .flag { display: block; width: 1.5rem; height: 1rem; border-radius: 3px; overflow: hidden; box-shadow: 0 0 0 1px rgb(0 0 0 / .18), 0 1px 3px rgb(0 0 0 / .18); }
+  .langs .flag svg { display: block; width: 100%; height: 100%; }
+  .langs button[aria-pressed="true"] { opacity: 1; }
+  .langs button[aria-pressed="true"] .flag { box-shadow: 0 0 0 2px currentColor, 0 2px 6px rgb(0 0 0 / .25); }
+  @media (hover: hover) and (pointer: fine) { .langs button:hover { opacity: 1; transform: translateY(-1px) scale(1.06); } }
+
+  /* WhatsApp in the corner (desktop; on phones the bottom bar already has it) */
+  .wa-fab { position: fixed; right: clamp(1rem, 2.2vw, 1.75rem); bottom: clamp(1rem, 2.2vw, 1.75rem); z-index: 75; display: flex; align-items: center; gap: .6rem;
+    height: 3.6rem; min-width: 3.6rem; padding: 0 1.05rem; border-radius: 999px; background: #1f7a4d; color: #fff; text-decoration: none;
+    box-shadow: 0 14px 30px -10px rgb(10 40 25 / .55), 0 0 0 1px rgb(255 255 255 / .12) inset; font: 500 .95rem/1 var(--sc-font-text);
+    transition: transform 220ms cubic-bezier(.3,1.5,.5,1), box-shadow 220ms var(--sc-ease-out), background-color 160ms; }
+  .wa-fab svg { width: 1.6rem; height: 1.6rem; flex: none; }
+  .wa-fab__l { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transition: max-width 420ms cubic-bezier(.2,.8,.2,1), opacity 260ms; }
+  .wa-fab:hover, .wa-fab:focus-visible { transform: translateY(-2px); background: #1b6c44; box-shadow: 0 18px 36px -10px rgb(10 40 25 / .6); }
+  .wa-fab:hover .wa-fab__l, .wa-fab:focus-visible .wa-fab__l { max-width: 18rem; opacity: 1; }
+  .wa-fab:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .motion .wa-fab { animation: ovsFab .7s cubic-bezier(.3,1.5,.5,1) 2.4s both; }
+  .motion .wa-fab::before { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgb(31 122 77 / .5); animation: ovsFabPing 3.2s ease-out 3.4s 3; pointer-events: none; }
+  @keyframes ovsFab { from { opacity: 0; transform: translateY(18px) scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes ovsFabPing { 0% { box-shadow: 0 0 0 0 rgb(31 122 77 / .5); } 70%, 100% { box-shadow: 0 0 0 16px rgb(31 122 77 / 0); } }
+  @media (max-width: 860px) { .wa-fab { display: none; } }
+  @media print { .wa-fab { display: none; } }
+
+  /* ================= 6b · guide teaser */
+  .gteaser { border-top: 1px solid var(--sc-hairline); }
+  .gteaser__grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+  .gteaser h2 { font-size: clamp(2.4rem, 4.2vw, 4rem); line-height: 1; }
+  .gteaser__btn { margin-top: 2rem; }
+  .gteaser__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+  .gteaser__list a { position: relative; display: grid; grid-template-columns: 1fr auto; gap: .3rem 1.5rem; padding: 1.25rem 3.2rem 1.25rem 1.4rem; border-radius: 14px; text-decoration: none;
+    background: color-mix(in oklab, var(--sc-canvas) 82%, #fff); border: 1px solid var(--sc-hairline); box-shadow: 0 22px 40px -32px rgb(20 32 43 / .45);
+    transition: transform 320ms cubic-bezier(.2,.8,.2,1), box-shadow 320ms cubic-bezier(.2,.8,.2,1), border-color 200ms; }
+  .gteaser__list a::after { content: "→"; position: absolute; right: 1.3rem; top: 50%; translate: 0 -50%; color: var(--day-accent); transition: translate 260ms cubic-bezier(.2,.8,.2,1); }
+  .gteaser__list b { font: 400 1.55rem/1.1 var(--sc-font-display); grid-column: 1; }
+  .gteaser__list span { grid-column: 1; color: var(--sc-ink-soft); font-size: .95rem; line-height: 1.5; }
+  .gteaser__list i { grid-column: 2; grid-row: 1; font-style: normal; font-size: .78rem; color: var(--sc-ink-soft); white-space: nowrap; align-self: center; }
+  @media (hover: hover) and (pointer: fine) { .gteaser__list a:hover { transform: translateY(-3px); border-color: color-mix(in oklab, var(--day-accent) 40%, transparent); } .gteaser__list a:hover::after { translate: 4px -50%; } }
+  @media (max-width: 860px) { .gteaser__grid { grid-template-columns: 1fr; } .gteaser__list a { grid-template-columns: 1fr; } .gteaser__list i { grid-column: 1; grid-row: auto; } }
+
 </style>
 </head>
 <body>
@@ -401,11 +445,12 @@
     <a href="#studio" data-i18n="nStudio">The studio</a>
     <a href="#guests" data-i18n="nGuests">Guests</a>
     <a href="#around" data-i18n="nAround">Location</a>
+    <a href="#guide" data-i18n="nGuide">Guide</a>
   </nav>
   <div class="langs" role="group" aria-label="Language" data-i18n-aria="ariaLang">
-    <button type="button" data-lang="en" lang="en">EN</button>
-    <button type="button" data-lang="es" lang="es">ES</button>
-    <button type="button" data-lang="de" lang="de">DE</button>
+    <button type="button" data-lang="en" lang="en" aria-label="English" title="English"><span class="flag"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><clipPath id="barena"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="barenb"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#barena)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#barenb)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg></span></button>
+    <button type="button" data-lang="es" lang="es" aria-label="Español" title="Español"><span class="flag"><svg viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden="true"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg></span></button>
+    <button type="button" data-lang="de" lang="de" aria-label="Deutsch" title="Deutsch"><span class="flag"><svg viewBox="0 0 5 3" preserveAspectRatio="none" aria-hidden="true"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#DD0000"/><rect y="2" width="5" height="1" fill="#FFCE00"/></svg></span></button>
   </div>
   <a class="btn btn--solid bar__book js-booking" href="https://www.booking.com/hotel/es/studio-joanna-1206.en-gb.html" rel="noopener" data-i18n="book">Check dates on Booking</a>
 </header>
@@ -414,6 +459,8 @@
   <a class="btn btn--solid js-booking" href="https://www.booking.com/hotel/es/studio-joanna-1206.en-gb.html" rel="noopener" data-i18n="book">Check dates on Booking</a>
   <a class="btn btn--wa js-wa" href="https://wa.me/34602527760" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2s.2-1.1.1-1.2-.2-.2-.4-.3Z"/></svg><span>WhatsApp</span></a>
 </nav>
+
+<a class="wa-fab js-wa" href="https://wa.me/34602527760" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2s.2-1.1.1-1.2-.2-.2-.4-.3Z"/></svg><span class="wa-fab__l" data-i18n="wa">Message us on WhatsApp</span></a>
 
 <main>
 
@@ -609,12 +656,28 @@
           <li data-place="cablecar"><button type="button" class="place" aria-pressed="false"><b data-i18n="pTeide">Teide cable car</b><span data-i18n="pTeideT">1 h by car</span></button></li>
         </ul>
         <p class="fine" data-i18n="aroundFine">Approximate times without traffic, from OpenStreetMap.</p>
-        <p class="note" data-i18n-html="outNote"><b>Our own guide is in the works:</b> where we eat, swim and take friends. When it is ready, a QR code in the studio will open it.</p>
       </div>
       <figure class="map" role="img" aria-label="Map of south-west Tenerife and La Gomera with the studio marked." data-i18n-aria="ariaMap">
         <svg viewBox="70 225 680 400" role="img" aria-hidden="true"></svg>
         <figcaption>© OpenStreetMap · Natural Earth</figcaption>
       </figure>
+    </div>
+  </section>
+
+  <!-- 6b · Joanna's guide (teaser; the full guide is guide/) -->
+  <section id="guide" class="gteaser sec" data-tone="paper">
+    <div class="wrap gteaser__grid">
+      <div class="gteaser__txt">
+        <span class="kick" data-i18n="gK">Joanna’s guide</span>
+        <h2 data-split data-i18n-html="gH">Where we’d send <em>a friend.</em></h2>
+        <p class="lede" data-i18n="gP">Joanna’s short list: our favourite places to eat, the best beaches nearby and the days out worth taking.</p>
+        <a class="btn btn--solid gteaser__btn" href="guide/"><span data-i18n="gOpen">Open Joanna’s guide</span> <span aria-hidden="true">→</span></a>
+      </div>
+      <ol class="gteaser__list" data-sc-in data-sc-stagger="90">
+        <li><a href="guide/#puertito"><b>Chiringuito El Puertito</b><span data-i18n="gf1">Swim in the cove, then grilled fish at the beach bar.</span><i data-i18n="gf1m">About 10 min · Cash only</i></a></li>
+        <li><a href="guide/#tierras"><b>Tasca Tierras del Sur</b><span data-i18n="gf2">Village cooking up in the hills. We went recently and loved it.</span><i data-i18n="gf2m">About 40 min · Book ahead</i></a></li>
+        <li><a href="guide/#chimiche"><b>El Secreto de Chimiche</b><span data-i18n="gf3">The special dinner, with a Michelin Bib Gourmand.</span><i data-i18n="gf3m">About 30 min · Book ahead</i></a></li>
+      </ol>
     </div>
   </section>
 
@@ -687,6 +750,7 @@
 
   var T = {
     en: {
+      nGuide: 'Guide', gK: 'Joanna’s guide', gH: 'Where we’d send <em>a friend.</em>', gP: 'Joanna’s short list: our favourite places to eat, the best beaches nearby and the days out worth taking.', gOpen: 'Open Joanna’s guide', gf1: 'Swim in the cove, then grilled fish at the beach bar.', gf1m: 'About 10 min · Cash only', gf2: 'Village cooking up in the hills. We went recently and loved it.', gf2m: 'About 40 min · Book ahead', gf3: 'The special dinner, with a Michelin Bib Gourmand.', gf3m: 'About 30 min · Book ahead',
       rv1: 'Location was perfect, the views from the balcony were amazing!!! The apartment was excellent for a couple and had everything we needed.', rv2: 'The view from the balcony is absolutely stunning and worth the stay in itself. The apartment block itself is very clean and clearly well maintained.', rv3: 'The ocean view from the balcony is to die for, the place is sparkly clean, the bed is very comfy, nice bathroom. Great location, it’s right across the famous Hard Rock Hotel and the bus stop is just next to it.', rv4: 'Lovely apartment, very clean &amp; the perfect size for 2 adults … nice size balcony with amazing views of the sunset in the evening.', rv5: 'Beautiful view, cozy and beautiful studio with a wonderful hostess who responded to messages immediately!', rv6: 'The apartment was fantastic, clean, like a home from home. All the extras made a difference. Fantastic view from balcony.', rvSrc: 'Booking.com guest', rvTr: '', guestsH: 'In their <em>own words.</em>', guestsP: 'Real reviews from guests who stayed here, on Booking.com.',
       q1t: '', q2t: '', q3t: '',
       skip: 'Skip to booking', book: 'Check dates on Booking', wa: 'Message us on WhatsApp',
@@ -731,6 +795,7 @@
       bookingSuffix: 'en-gb.html'
     },
     es: {
+      nGuide: 'Guía', gK: 'La guía de Joanna', gH: 'Adónde mandaríamos <em>a un amigo.</em>', gP: 'La lista corta de Joanna: nuestros sitios favoritos para comer, las mejores playas cercanas y las excursiones que merecen la pena.', gOpen: 'Abrir la guía de Joanna', gf1: 'Baño en la cala y después pescado a la plancha en el chiringuito.', gf1m: 'Unos 10 min · Solo efectivo', gf2: 'Cocina de pueblo en las medianías. Fuimos hace poco y nos encantó.', gf2m: 'Unos 40 min · Reservar', gf3: 'La cena especial, con un Bib Gourmand de la Guía Michelin.', gf3m: 'Unos 30 min · Reservar',
       rv1: '«La ubicación era perfecta y las vistas desde el balcón, increíbles. El apartamento era ideal para una pareja y tenía todo lo que necesitábamos».', rv2: '«La vista desde el balcón es absolutamente impresionante y por sí sola merece la estancia. El edificio está muy limpio y se nota bien cuidado».', rv3: '«La vista al océano desde el balcón es de ensueño, todo está impecable, la cama es muy cómoda y el baño está muy bien. Buena ubicación, justo enfrente del famoso Hard Rock Hotel y con la parada de autobús al lado».', rv4: '«Apartamento encantador, muy limpio y del tamaño perfecto para dos adultos … un balcón amplio con vistas increíbles a la puesta de sol».', rv5: '«Vista preciosa, un estudio acogedor y bonito, y una anfitriona estupenda que respondía a los mensajes al momento».', rv6: '«El apartamento era fantástico, limpio, como estar en casa. Los detalles marcaron la diferencia. Una vista fantástica desde el balcón».', rvSrc: 'Huésped en Booking.com', rvTr: 'Traducido del inglés', guestsH: 'En sus <em>propias palabras.</em>', guestsP: 'Opiniones reales de huéspedes que se alojaron aquí, en Booking.com.',
       q1t: 'Traducido: «La vista desde el balcón es absolutamente impresionante y por sí sola merece la estancia».', q2t: 'Traducido: «Un balcón de buen tamaño con vistas increíbles a la puesta de sol por la tarde».', q3t: 'Traducido: «Vista preciosa, un estudio acogedor y bonito, y una anfitriona estupenda que respondía a los mensajes al momento».',
       skip: 'Ir a reservar', book: 'Ver fechas en Booking', wa: 'Escríbenos por WhatsApp',
@@ -775,6 +840,7 @@
       bookingSuffix: 'es.html'
     },
     de: {
+      nGuide: 'Tipps', gK: 'Joannas Tipps', gH: 'Wohin wir <em>Freunde schicken.</em>', gP: 'Joannas kurze Liste: unsere Lieblingslokale, die besten Strände in der Nähe und die Ausflüge, die sich lohnen.', gOpen: 'Joannas Tipps öffnen', gf1: 'Erst in der Bucht baden, dann gegrillter Fisch in der Strandbar.', gf1m: 'Ca. 10 Min. · Nur Barzahlung', gf2: 'Dorfküche oben in den Hügeln. Wir waren vor Kurzem dort und begeistert.', gf2m: 'Ca. 40 Min. · Reservieren', gf3: 'Das besondere Abendessen, mit einem Bib Gourmand des Guide Michelin.', gf3m: 'Ca. 30 Min. · Reservieren',
       rv1: '„Die Lage war perfekt, der Blick vom Balkon war fantastisch. Das Apartment war ideal für ein Paar und hatte alles, was wir brauchten.“', rv2: '„Der Blick vom Balkon ist absolut atemberaubend und allein schon den Aufenthalt wert. Die Anlage ist sehr sauber und sichtlich gut gepflegt.“', rv3: '„Der Meerblick vom Balkon ist traumhaft, alles ist blitzsauber, das Bett sehr bequem, das Bad schön. Tolle Lage, direkt gegenüber dem bekannten Hard Rock Hotel, die Bushaltestelle gleich daneben.“', rv4: '„Schönes Apartment, sehr sauber und genau die richtige Größe für zwei Erwachsene … ein schön großer Balkon mit herrlichem Blick auf den Sonnenuntergang am Abend.“', rv5: '„Schöner Blick, ein gemütliches, hübsches Studio und eine wunderbare Gastgeberin, die sofort auf Nachrichten geantwortet hat.“', rv6: '„Das Apartment war fantastisch, sauber, wie ein Zuhause. Die vielen Extras haben den Unterschied gemacht. Herrlicher Blick vom Balkon.“', rvSrc: 'Gast auf Booking.com', rvTr: 'Aus dem Englischen übersetzt', guestsH: 'In ihren <em>eigenen Worten.</em>', guestsP: 'Echte Bewertungen von Gästen, die hier gewohnt haben, auf Booking.com.',
       q1t: 'Übersetzt: „Der Blick vom Balkon ist absolut atemberaubend und allein schon den Aufenthalt wert.“', q2t: 'Übersetzt: „Ein schön großer Balkon mit herrlichem Blick auf den Sonnenuntergang am Abend.“', q3t: 'Übersetzt: „Schöner Blick, ein gemütliches, hübsches Studio und eine wunderbare Gastgeberin, die sofort auf Nachrichten geantwortet hat.“',
       skip: 'Zur Buchung', book: 'Verfügbarkeit auf Booking', wa: 'Schreiben Sie uns auf WhatsApp',
