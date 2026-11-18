@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fonts and colours · Ocean View Studio</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Figtree:wght@400;500;600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #2a2622; font-family: system-ui, sans-serif; color: #fff; }
+  .intro { max-width: 60rem; margin: 0 auto; padding: 2.2rem 1rem 1rem; font-size: 1.05rem; line-height: 1.6; }
+  .intro h1 { font-size: 1.6rem; margin: 0 0 .4rem; }
+  .opt { margin: 1.5rem auto 3rem; max-width: 72rem; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -30px #000; }
+  .tag { padding: .9rem 1.4rem; font: 600 1rem/1.3 system-ui; background: #111; color: #fff; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .tag span { font-weight: 400; opacity: .75; }
+  .p { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.65; }
+  .bar { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.6rem; }
+  .mark { font-family: var(--head); font-size: 1.35rem; font-weight: var(--hw); }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .85rem 1.35rem; border-radius: 999px; background: var(--accent); color: var(--aink); font-weight: 600; font-size: .98rem; text-decoration: none; }
+  .btn--wa { background: #1f7a4d; color: #fff; }
+  .hero { position: relative; height: 26rem; overflow: hidden; display: flex; align-items: flex-end; color: #fff; }
+  .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgb(8 14 24 / .8), transparent 65%); }
+  .hero div { position: relative; z-index: 1; padding: 2rem 1.8rem; }
+  .hero h2 { font-family: var(--head); font-weight: var(--hw); font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1.02; margin: 0 0 .6rem; letter-spacing: -.01em; }
+  .hero p { margin: 0 0 1.2rem; max-width: 36rem; font-size: 1.1rem; }
+  .body { padding: 2.4rem 1.8rem 2.6rem; display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 1.4rem; align-items: start; }
+  .body h3 { font-family: var(--head); font-weight: var(--hw); font-size: 2rem; line-height: 1.08; margin: 0 0 .7rem; }
+  .soft { color: var(--soft); }
+  .card { background: var(--card); border-radius: 16px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 20px 40px -30px rgb(0 0 0 / .5); }
+  .card .in { padding: 1.3rem 1.4rem 1.3rem; }
+  .card img { display: block; width: 100%; height: 11rem; object-fit: cover; }
+  .card h4 { font-family: var(--head); font-weight: var(--hw); font-size: 1.45rem; margin: 0 0 .3rem; line-height: 1.15; }
+  .q { font-family: var(--head); font-size: 2.4rem; line-height: .6; color: var(--accent2); display: block; height: 1.2rem; }
+  .quote { font-size: 1.12rem; line-height: 1.5; margin: .4rem 0 1rem; }
+  .meta { font-size: .85rem; color: var(--soft); }
+  .band { background: var(--band); color: var(--bandink); padding: 1.6rem 1.8rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .band b { font-family: var(--head); font-weight: var(--hw); font-size: 1.6rem; }
+  @media (max-width: 860px) { .body { grid-template-columns: 1fr; } .hero { height: 22rem; } }
+
+  .A { --bg: #ece1cd; --card: #f8f2e7; --ink: #1c2631; --soft: #4d5864; --line: rgb(28 38 49 / .12); --accent: #17406b; --aink: #fff; --accent2: #c0622f; --band: #17406b; --bandink: #f5ecdc;
+       --head: "Fraunces", Georgia, serif; --hw: 600; --body: "Figtree", system-ui, sans-serif; }
+  .B { --bg: #0f1f2c; --card: #172b3b; --ink: #f2ece2; --soft: #b9c2c9; --line: rgb(255 255 255 / .1); --accent: #f2a65a; --aink: #1a1206; --accent2: #f2a65a; --band: #f2a65a; --bandink: #1a1206;
+       --head: "DM Serif Display", Georgia, serif; --hw: 400; --body: "DM Sans", system-ui, sans-serif; }
+  .C { --bg: #f0e0cc; --card: #fbf3e8; --ink: #2a1d16; --soft: #5f4b40; --line: rgb(42 29 22 / .12); --accent: #b4532a; --aink: #fff; --accent2: #b4532a; --band: #24465f; --bandink: #f7ecdf;
+       --head: "Outfit", system-ui, sans-serif; --hw: 600; --body: "Outfit", system-ui, sans-serif; }
+  .C .hero h2, .C .body h3 { letter-spacing: -.025em; }
+</style>
+</head>
+<body>
+<div class="intro">
+  <h1>Pick a look for the Ocean View Studio site</h1>
+  Three directions, each on the same real content. All three use bigger, darker body text than now and no white background. Tell me A, B or C (or mix: "A’s fonts with B’s colours"). The pool photo on the guide card is only a stand-in; the real cards get photos of each place.
+</div>
+
+<section class="opt A">
+  <div class="tag">A · Sand and Atlantic <span>Fraunces headings (sturdy serif) + Figtree text · warm sand, deep-sea blue</span></div>
+  <div class="p">
+    <div class="bar"><span class="mark">Ocean View Studio</span><a class="btn" href="#">Check dates on Booking</a></div>
+    <div class="hero"><img src="../v3/assets/v2/table.webp" alt=""><div><h2>The Atlantic, from the 12th floor.</h2><p>A studio for two with the sea and La Gomera outside the window.</p><a class="btn" href="#">Check dates on Booking</a></div></div>
+    <div class="body">
+      <div><h3>One room, three places to be.</h3><p class="soft">35 m² on the 12th floor, set up for two adults. The kitchen on one side, the bed on the other, and the glass doors to the balcony in between.</p></div>
+      <div class="card"><div class="in"><span class="q">“</span><p class="quote">The view from the balcony is absolutely stunning and worth the stay in itself.</p><span class="meta">Booking.com guest · June 2026</span></div></div>
+      <div class="card"><img src="../v3/assets/v2/pool.webp" alt=""><div class="in"><h4>Chiringuito El Puertito</h4><span class="meta">About 10 min · Cash only</span><p>Swim in the cove, then grilled fish at the beach bar.</p></div></div>
+    </div>
+    <div class="band"><b>Where we’d send a friend.</b><a class="btn btn--wa" href="#">Message us on WhatsApp</a></div>
+  </div>
+</section>
+
+<section class="opt B">
+  <div class="tag">B · Atlantic night <span>DM Serif Display headings (bold classic serif) + DM Sans text · dark navy, sunset gold</span></div>
+  <div class="p">
+    <div class="bar"><span class="mark">Ocean View Studio</span><a class="btn" href="#">Check dates on Booking</a></div>
+    <div class="hero"><img src="../v3/assets/v2/sunset.webp" alt=""><div><h2>The Atlantic, from the 12th floor.</h2><p>A studio for two with the sea and La Gomera outside the window.</p><a class="btn" href="#">Check dates on Booking</a></div></div>
+    <div class="body">
+      <div><h3>One room, three places to be.</h3><p class="soft">35 m² on the 12th floor, set up for two adults. The kitchen on one side, the bed on the other, and the glass doors to the balcony in between.</p></div>
+      <div class="card"><div class="in"><span class="q">“</span><p class="quote">The view from the balcony is absolutely stunning and worth the stay in itself.</p><span class="meta">Booking.com guest · June 2026</span></div></div>
+      <div class="card"><img src="../v3/assets/v2/pool.webp" alt=""><div class="in"><h4>Chiringuito El Puertito</h4><span class="meta">About 10 min · Cash only</span><p>Swim in the cove, then grilled fish at the beach bar.</p></div></div>
+    </div>
+    <div class="band"><b>Where we’d send a friend.</b><a class="btn btn--wa" href="#">Message us on WhatsApp</a></div>
+  </div>
+</section>
+
+<section class="opt C">
+  <div class="tag">C · Warm and modern <span>Outfit for everything (clean rounded sans, easiest to read) · peach sand, terracotta, ocean blue</span></div>
+  <div class="p">
+    <div class="bar"><span class="mark">Ocean View Studio</span><a class="btn" href="#">Check dates on Booking</a></div>
+    <div class="hero"><img src="../v3/assets/v2/table.webp" alt=""><div><h2>The Atlantic, from the 12th floor.</h2><p>A studio for two with the sea and La Gomera outside the window.</p><a class="btn" href="#">Check dates on Booking</a></div></div>
+    <div class="body">
+      <div><h3>One room, three places to be.</h3><p class="soft">35 m² on the 12th floor, set up for two adults. The kitchen on one side, the bed on the other, and the glass doors to the balcony in between.</p></div>
+      <div class="card"><div class="in"><span class="q">“</span><p class="quote">The view from the balcony is absolutely stunning and worth the stay in itself.</p><span class="meta">Booking.com guest · June 2026</span></div></div>
+      <div class="card"><img src="../v3/assets/v2/pool.webp" alt=""><div class="in"><h4>Chiringuito El Puertito</h4><span class="meta">About 10 min · Cash only</span><p>Swim in the cove, then grilled fish at the beach bar.</p></div></div>
+    </div>
+    <div class="band"><b>Where we’d send a friend.</b><a class="btn btn--wa" href="#">Message us on WhatsApp</a></div>
+  </div>
+</section>
+</body>
+</html>
