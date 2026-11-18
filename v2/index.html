@@ -29,7 +29,7 @@
     --day-surface: #e8e2d7; --dusk-surface: #18212d;
     --day-ink: #14202b;     --dusk-ink: #f2ece3;
     --day-soft: #59636d;    --dusk-soft: #b2aba2;
-    --day-accent: #1f4fa3;  --dusk-accent: #a9c0f5;
+    --day-accent: #1f4fa3;  --dusk-accent: #f2a65a;
     --day-aink: #f6f4ef;    --dusk-aink: #0e141c;
     --sc-canvas:  color-mix(in oklab, var(--dusk-canvas) var(--d), var(--day-canvas));
     --sc-surface: color-mix(in oklab, var(--dusk-surface) var(--d), var(--day-surface));
@@ -52,7 +52,7 @@
   a { color: inherit; }
   .skip:focus-visible { position: fixed !important; left: 1rem; top: 1rem; width: auto; height: auto; clip: auto; z-index: 100; padding: .7rem 1rem; background: var(--sc-canvas); color: var(--sc-ink); border-radius: 6px; }
   .vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .kick { display: block; font: 500 .72rem/1.2 var(--sc-font-text); letter-spacing: .2em; text-transform: uppercase; color: var(--sc-ink-soft); margin: 0 0 1.1rem; }
+  .kick { display: block; font: 500 .78rem/1.2 var(--sc-font-text); letter-spacing: .2em; text-transform: uppercase; color: var(--sc-ink-soft); margin: 0 0 1.1rem; }
   .kick time { letter-spacing: .12em; }
   .lede { font-size: 1.08rem; line-height: 1.65; color: var(--sc-ink-soft); max-width: 44ch; margin: 1.2rem 0 0; }
   .wrap { width: 100%; max-width: 76rem; margin-inline: auto; padding-inline: var(--sc-gutter); }
@@ -132,7 +132,7 @@
     .arrive .scrim-m { display: block; position: absolute; inset: auto 0 0 0; height: 72%; z-index: 4; pointer-events: none;
       background: linear-gradient(to top, rgb(14 20 28 / .96) 0%, rgb(14 20 28 / .9) 58%, rgb(14 20 28 / 0) 100%); }
     .arrive .then { right: var(--sc-gutter); top: 5.5rem; }
-    .arrive .then-scrim { width: 100%; height: 50%; background: linear-gradient(to bottom, rgb(6 18 48 / .78), rgb(6 18 48 / .35) 55%, transparent); }
+    .arrive .then-scrim { width: 100%; height: 50%; background: linear-gradient(to bottom, rgb(6 18 48 / .84), rgb(6 18 48 / .45) 60%, transparent); }
   }
 
   /* ================= 2 · view (pan) */
@@ -174,7 +174,7 @@
   .zone figcaption { font-size: .9rem; line-height: 1.55; color: var(--sc-ink-soft); margin-top: .8rem; max-width: 46ch; }
   .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 2rem; margin: clamp(3rem, 8vh, 5rem) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--sc-hairline); }
   .facts li { padding: 1.1rem 0; border-bottom: 1px solid var(--sc-hairline); font-size: .95rem; line-height: 1.45; }
-  .facts b { display: block; font: 500 .7rem/1 var(--sc-font-text); letter-spacing: .18em; text-transform: uppercase; color: var(--sc-ink-soft); margin-bottom: .5rem; }
+  .facts b { display: block; font: 500 .78rem/1 var(--sc-font-text); letter-spacing: .16em; text-transform: uppercase; color: var(--sc-ink-soft); margin-bottom: .5rem; }
   @media (max-width: 860px) {
     .studio .head { grid-template-columns: 1fr; }
     .zone--a, .zone--b, .zone--c { grid-column: 1 / -1; margin-top: 0; }
@@ -190,7 +190,7 @@
   .down .p1 { grid-column: 6 / span 7; margin: 0; }
   .down .p2 { grid-column: 5 / span 4; margin: -14% 0 0; position: relative; z-index: 1; }
   .down figure img { width: 100%; height: auto; display: block; border-radius: var(--r); }
-  .down .p2 img { box-shadow: 0 24px 50px -24px rgb(20 32 43 / .55); outline: 8px solid var(--sc-canvas); }
+  .down .p2 img { outline: 8px solid var(--sc-canvas); box-shadow: 0 0 0 9px var(--sc-hairline); }
   .down figcaption { font-size: .85rem; color: var(--sc-ink-soft); margin-top: .6rem; }
   @media (max-width: 860px) {
     .down .txt, .down .p1 { grid-column: 1 / -1; }
@@ -204,6 +204,8 @@
   .quote p { font: italic 400 clamp(1.6rem, 2.6vw, 2.4rem)/1.18 var(--sc-font-display); margin: 0; text-wrap: balance; }
   .quote:first-child { grid-row: span 2; }
   .quote:first-child p { font-size: clamp(2.2rem, 4.2vw, 4rem); line-height: 1.06; }
+  .quote p.tr, .quote:first-child p.tr { font-style: normal; font: 400 1rem/1.5 var(--sc-font-text); color: var(--sc-ink-soft); margin: .8rem 0 0; max-width: 44ch; }
+  .quote .tr:empty { display: none; }
   .quote footer { font-size: .82rem; letter-spacing: .04em; color: var(--sc-ink-soft); margin-top: 1rem; }
   .guests .more { margin-top: 2.5rem; font-size: .95rem; }
   @media (max-width: 860px) { .quotes { grid-template-columns: 1fr; } .quote:first-child { grid-row: auto; } }
@@ -239,7 +241,7 @@
   .map figcaption { position: absolute; right: .9rem; bottom: .7rem; font-size: .72rem; color: #4c5a63; }
   .around .note { margin-top: 1.6rem; font-size: .95rem; line-height: 1.6; max-width: 52ch; }
   .around .fine { font-size: .8rem; color: var(--sc-ink-soft); margin-top: .8rem; }
-  @media (max-width: 860px) { .around .grid { grid-template-columns: 1fr; } .map { position: relative; top: 0; aspect-ratio: 400 / 330; } .map .lab { font-size: 15px; } .map .lab--opt { display: none; } .map .lab--isle { font-size: 20px; } }
+  @media (max-width: 860px) { .around .grid { grid-template-columns: 1fr; } .map { position: relative; top: 0; aspect-ratio: 400 / 330; } .map .lab { font-size: 15px; } .map .lab--isle { font-size: 20px; } }
 
   /* ================= 7 · sunset */
   .sunset [data-sc-stage] { background: #0e141c; }
@@ -349,7 +351,7 @@
           <a class="btn btn--line js-wa" href="https://wa.me/34602527760" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2s.2-1.1.1-1.2-.2-.2-.4-.3Z"/></svg><span data-i18n="wa">Message us on WhatsApp</span></a>
         </div>
       </div>
-      <div class="then-scrim" aria-hidden="true" data-sc-cue="0.66 1 0.2 0"></div>
+      <div class="then-scrim" aria-hidden="true" data-sc-cue="0.6 1 0.1 0"></div>
       <div class="sc-copy then" data-sc-cue="0.68 0.98 0.18 0.1">
         <p data-i18n-html="fromSofa">This is the view <em>from the sofa.</em></p>
       </div>
@@ -455,7 +457,7 @@
         <p class="lede" data-i18n="downP">The Paraíso del Sur pool, refurbished in 2026, with loungers and parasols round it. The building also has a massage centre with some spa facilities.</p>
       </div>
       <figure class="p1"><img src="assets/v2/pool.webp" width="1280" height="853" alt="The large pool at Paraíso del Sur with loungers and parasols under a blue sky." data-i18n-alt="altPool" loading="lazy" decoding="async"></figure>
-      <figure class="p2"><img src="assets/v2/pool2.webp" width="1280" height="853" alt="The pool with the building's terraces behind it." data-i18n-alt="altPool2" loading="lazy" decoding="async"></figure>
+      <figure class="p2"><img src="assets/v2/pool2.webp" width="946" height="712" alt="The pool with the building's terraces behind it." data-i18n-alt="altPool2" loading="lazy" decoding="async"></figure>
     </div>
   </section>
 
@@ -464,9 +466,9 @@
     <div class="wrap">
       <h2 class="kick" data-i18n="kGuests">What guests wrote</h2>
       <div class="quotes" data-sc-in data-sc-stagger="80">
-        <blockquote class="quote" lang="en"><p>“The view from the balcony is absolutely stunning and worth the stay in itself.”</p><footer data-i18n="q1f">Guest review on Booking.com · June 2026</footer></blockquote>
-        <blockquote class="quote" lang="en"><p>“Nice size balcony with amazing views of the sunset in the evening.”</p><footer data-i18n="q2f">Guest review on Booking.com · February 2025</footer></blockquote>
-        <blockquote class="quote" lang="en"><p>“Beautiful view, cozy and beautiful studio with a wonderful hostess who responded to messages immediately!”</p><footer data-i18n="q3f">Guest review on Booking.com · September 2025</footer></blockquote>
+        <blockquote class="quote" lang="en"><p>“The view from the balcony is absolutely stunning and worth the stay in itself.”</p><p class="tr" data-i18n="q1t"></p><footer data-i18n="q1f">Guest review on Booking.com · June 2026</footer></blockquote>
+        <blockquote class="quote" lang="en"><p>“Nice size balcony with amazing views of the sunset in the evening.”</p><p class="tr" data-i18n="q2t"></p><footer data-i18n="q2f">Guest review on Booking.com · February 2025</footer></blockquote>
+        <blockquote class="quote" lang="en"><p>“Beautiful view, cozy and beautiful studio with a wonderful hostess who responded to messages immediately!”</p><p class="tr" data-i18n="q3t"></p><footer data-i18n="q3f">Guest review on Booking.com · September 2025</footer></blockquote>
       </div>
       <p class="more"><a class="textlink js-booking" href="https://www.booking.com/hotel/es/studio-joanna-1206.en-gb.html#tab-reviews" rel="noopener" data-i18n="reviewsAll">Read all the reviews on Booking.com</a></p>
     </div>
@@ -567,6 +569,7 @@
 
   var T = {
     en: {
+      q1t: '', q2t: '', q3t: '',
       skip: 'Skip to booking', book: 'Check dates on Booking', wa: 'Message us on WhatsApp',
       waText: "Hi! I'm interested in the Ocean View Studio in Playa Paraíso. Are these dates free: ",
       nView: 'The view', nStudio: 'The studio', nGuests: 'Guests', nAround: 'Location',
@@ -609,6 +612,7 @@
       bookingSuffix: 'en-gb.html'
     },
     es: {
+      q1t: 'Traducido: «La vista desde el balcón es absolutamente impresionante y por sí sola merece la estancia».', q2t: 'Traducido: «Un balcón de buen tamaño con vistas increíbles a la puesta de sol por la tarde».', q3t: 'Traducido: «Vista preciosa, un estudio acogedor y bonito, y una anfitriona estupenda que respondía a los mensajes al momento».',
       skip: 'Ir a reservar', book: 'Ver fechas en Booking', wa: 'Escríbenos por WhatsApp',
       waText: '¡Hola! Me interesa el Ocean View Studio en Playa Paraíso. ¿Están libres estas fechas?: ',
       nView: 'La vista', nStudio: 'El estudio', nGuests: 'Huéspedes', nAround: 'Ubicación',
@@ -651,7 +655,8 @@
       bookingSuffix: 'es.html'
     },
     de: {
-      skip: 'Zur Buchung', book: 'Termine auf Booking', wa: 'Schreib uns auf WhatsApp',
+      q1t: 'Übersetzt: „Der Blick vom Balkon ist absolut atemberaubend und allein schon den Aufenthalt wert.“', q2t: 'Übersetzt: „Ein schön großer Balkon mit herrlichem Blick auf den Sonnenuntergang am Abend.“', q3t: 'Übersetzt: „Schöner Blick, ein gemütliches, hübsches Studio und eine wunderbare Gastgeberin, die sofort auf Nachrichten geantwortet hat.“',
+      skip: 'Zur Buchung', book: 'Verfügbarkeit auf Booking', wa: 'Schreiben Sie uns auf WhatsApp',
       waText: 'Hallo! Ich interessiere mich für das Ocean View Studio in Playa Paraíso. Sind diese Daten frei: ',
       nView: 'Der Blick', nStudio: 'Das Studio', nGuests: 'Gäste', nAround: 'Lage',
       h1: 'Der Atlantik, aus dem <em>12. Stock.</em>',
@@ -673,19 +678,19 @@
       downP: 'Der Pool von Paraíso del Sur, 2026 renoviert, mit Liegen und Sonnenschirmen. Im Gebäude gibt es außerdem ein Massagezentrum mit etwas Spa.',
       kGuests: 'Was Gäste schreiben', q1f: 'Gästebewertung auf Booking.com · Juni 2026', q2f: 'Gästebewertung auf Booking.com · Februar 2025', q3f: 'Gästebewertung auf Booking.com · September 2025',
       reviewsAll: 'Alle Bewertungen auf Booking.com lesen',
-      kAround: 'Umgebung', aroundH: 'Wo <em>du bist</em>',
+      kAround: 'Umgebung', aroundH: 'Wo Sie <em>wohnen</em>',
       aroundP: 'Playa Paraíso liegt an der ruhigen Südwestküste Teneriffas, zwischen Costa Adeje und den Klippen von Los Gigantes.',
       pBeach: 'Zwei kleine Strände', pBeachT: '5 Min. zu Fuß', pAdeje: 'Strände der Costa Adeje', pAdejeT: '15 Min. mit dem Auto', pCaletaT: '15 Min. mit dem Auto',
       pCristT: '20 Min. mit dem Auto', pGigT: '25 Min. mit dem Auto', pAir: 'Flughafen Teneriffa Süd', pAirT: '25 Min. mit dem Auto', pTeide: 'Teide-Seilbahn', pTeideT: '1 Std. mit dem Auto',
       aroundFine: 'Ungefähre Zeiten ohne Verkehr, laut OpenStreetMap.',
       outNote: '<b>Unser eigener Reiseführer ist in Arbeit:</b> wo wir essen, schwimmen und mit Freunden hingehen. Sobald er fertig ist, öffnet ihn ein QR-Code im Studio.',
       tonight: 'Heute Abend geht die Sonne in Playa Paraíso unter um',
-      sunH1: 'Scroll weiter. <em>Du lässt sie untergehen.</em>', sunH2: 'Jeden Abend, <em>von deinem Balkon.</em>',
+      sunH1: 'Scrollen Sie weiter. <em>Sie lassen die Sonne untergehen.</em>', sunH2: 'Jeden Abend, <em>von Ihrem Balkon.</em>',
       sunP: 'Jede Woche versinkt die Sonne ein Stück weiter entlang des Horizonts im Meer, im Frühling und Spätsommer hinter La Gomera.',
       realK: 'Und dieser ist echt', sunH3: 'Fotografiert <em>vom Balkon.</em>',
       credit: 'Bis zum Foto: eine Illustration auf unserem Tagesfoto. Sonnenstand und Uhrzeit sind für heute berechnet.',
-      kBook: 'Buchen', bookH: 'Dein Balkon, <em>an jedem Abend.</em>',
-      bookP: 'Preise und freie Termine auf Booking.com, oder schreib uns vorher auf WhatsApp, wenn du etwas fragen möchtest.',
+      kBook: 'Buchen', bookH: 'Ihr Balkon, <em>an jedem Abend.</em>',
+      bookP: 'Preise und freie Termine auf Booking.com, oder schreiben Sie uns vorher auf WhatsApp, wenn Sie etwas fragen möchten.',
       r1: 'Nur Erwachsene (21+)', r2: 'Bis zu 2 Gäste', r3: 'Self-Check-in ab 15:00 Uhr', r4: 'Preise auf Booking.com', r5: 'Rauchen nur auf dem Balkon',
       licence: 'Lizenznummer',
       map: { gomera: 'La Gomera', sea: 'Atlantik', flat: 'Ocean View Studio', cristianos: 'Los Cristianos', gigantes: 'Los Gigantes', caleta: 'La Caleta', fanabe: 'Costa Adeje', airport: 'Flughafen (TFS)', cablecar: 'Teide' },
@@ -734,8 +739,9 @@
       el.dataset.alt = v; el.setAttribute('aria-label', v);
       if (el.getAttribute('aria-pressed') === 'true') { var z = el.closest('[data-zone]'); if (z) z.querySelector('.zone__frame > img').alt = v; }
     });
-    document.querySelectorAll('.js-booking').forEach(function (a) { a.href = BOOK + t.bookingSuffix + (a.href.indexOf('#tab-reviews') > -1 ? '#tab-reviews' : ''); });
+    document.querySelectorAll('.js-booking').forEach(function (a) { a.href = BOOK + t.bookingSuffix + '?group_adults=2&group_children=0&no_rooms=1' + (a.href.indexOf('#tab-reviews') > -1 ? '#tab-reviews' : ''); });
     document.querySelectorAll('.js-wa').forEach(function (a) { a.href = WA + encodeURIComponent(t.waText); });
+    document.querySelectorAll('.quote .tr').forEach(function (el) { el.lang = l; });
     document.querySelectorAll('.langs button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
     drawMap();
     try { localStorage.setItem('ovs-lang', l); } catch (e) {}
@@ -805,7 +811,7 @@
     var g = P('gomera'); h += '<text class="lab lab--isle" x="' + (g[0] - 40) + '" y="' + (g[1] + 6) + '">' + t.gomera + '</text>';
     h += '<text class="lab lab--sea" x="' + (innerWidth <= 860 ? 330 : 250) + '" y="' + (innerWidth <= 860 ? 560 : 560) + '">' + t.sea + '</text>';
     Object.keys(LABELS).forEach(function (k) {
-      var p = P(k), o = LABELS[k];
+      var p = P(k), o = (innerWidth <= 860 && k === 'airport') ? [8, 26, 'end'] : LABELS[k];
       h += '<circle class="dot" data-dot="' + k + '" cx="' + p[0] + '" cy="' + p[1] + '" r="5.5"/>';
       h += '<text class="lab' + (k === 'fanabe' || k === 'caleta' ? ' lab--opt' : '') + '" x="' + (p[0] + o[0]) + '" y="' + (p[1] + o[1]) + '" text-anchor="' + o[2] + '">' + t[k] + '</text>';
     });
