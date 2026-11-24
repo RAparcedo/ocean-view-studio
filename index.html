@@ -250,6 +250,7 @@
   .sunset .pl { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; will-change: transform, opacity; pointer-events: none; }
   .glitter { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform, opacity;
     -webkit-mask-image: url(assets/mask-sea.png); mask-image: url(assets/mask-sea.png); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; mix-blend-mode: screen; pointer-events: none; }
+  @media (max-width: 860px) and (pointer: coarse) { .glitter { display: none; } }   /* huge masked + blended layer: phones drop its tiles (dark blocks) */
   .glitter i { position: absolute; top: 0; bottom: 0; width: 300px; margin-left: -150px; left: var(--gx, 50%);
     background: repeating-linear-gradient(to bottom, transparent 0 9px, rgb(255 214 150 / .55) 9px 10px, transparent 10px 23px),
       repeating-linear-gradient(to bottom, transparent 0 5px, rgb(255 220 160 / .35) 5px 6px, transparent 6px 13px),
@@ -1495,6 +1496,15 @@
   placeNight();
   requestAnimationFrame(loop);
   function relayout() { lockW = 0; dispatchEvent(new Event('resize')); }
+  if (/[?&]dbg=1/.test(location.search)) {   // on-phone diagnostics: version and the sizes this device reports
+    var dbg = document.createElement('pre'); dbg.style.cssText = 'position:fixed;left:6px;top:70px;z-index:999;margin:0;padding:6px 8px;font:11px/1.35 monospace;background:rgb(0 0 0 / .75);color:#7CFC9A;border-radius:6px;pointer-events:none';
+    document.body.appendChild(dbg);
+    setInterval(function () {
+      var st = document.querySelector('.sunset [data-sc-stage]'), pl = document.querySelector('.sunset .pl--day');
+      var m = pl && pl.style.transform.match(/scale[(]([^)]+)/), NL = String.fromCharCode(10);
+      dbg.textContent = ['build 24Nov-2212', 'inner ' + innerWidth + 'x' + innerHeight + '  vh used ' + vh, 'stage h ' + (st ? st.clientHeight : '-') + '  coarse ' + COARSE, 'sunset img ' + (pl ? pl.currentSrc.split('/').pop() : '-'), 'scale ' + (m ? m[1] : '-') + '  glitter ' + getComputedStyle(document.querySelector('.glitter')).display].join(NL);
+    }, 300);
+  }
   addEventListener('load', relayout);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
 })();
