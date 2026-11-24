@@ -1120,7 +1120,12 @@
   }
   svg.addEventListener('click', function (e) {
     var t = e.target.closest && e.target.closest('[data-hit]'); if (!t) return;
-    var b = document.querySelector('.places li[data-place="' + t.getAttribute('data-hit') + '"] .place'); if (b) b.click();
+    var key = t.getAttribute('data-hit');
+    if (t.classList.contains('hit')) {   // dots close together: take the one nearest the finger
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; var q = pt.matrixTransform(svg.getScreenCTM().inverse()), best = 1e9;
+      Object.keys(LABELS).forEach(function (k) { var pp = P(k), d = Math.hypot(pp[0] - q.x, pp[1] - q.y); if (d < best) { best = d; key = k; } });
+    }
+    var b = document.querySelector('.places li[data-place="' + key + '"] .place'); if (b) b.click();
   });
   // choosing a place draws the route from the studio, so the time has a direction
   var pinned = null;
