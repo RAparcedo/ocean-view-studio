@@ -1212,6 +1212,7 @@
   var ROOM_W = 1080, ROOM_H = 1920, WIN_X = 435, WIN_Y = 555, PANO_OX = -1896, PANO_OY = 213;
   // phones: the address bar hiding/showing changes innerHeight while scrolling; size the scenes from the
   // stable small-viewport frame (.sc-stage is 100svh) so nothing zooms or flickers
+  var ZOOM_T = (function () { var m = location.search.match(/[?&]pz=([0-9.]+)/); return m ? Math.min(1, +m[1]) : 0.25; })();   // phone sunset zoom: 0 = photo fits width, 1 = fills screen
   var COARSE = matchMedia('(pointer: coarse)').matches, lockW = innerWidth, lockH = innerHeight;
   function stableVH() {   // touch screens: keep the height from load; only a width change (rotation) re-measures
     if (!COARSE) return innerHeight;
@@ -1254,7 +1255,7 @@
     var mobile = vw <= 860;
     var phone = vw <= 860 && vh > vw;
     // phones: the real photo sits halfway between "fit the width" and "fill the screen"; the drawn view uses the matching zoom
-    var cMid = (vw / 1199 + Math.max(vw / 1199, vh / 900) * 1.06) / 2;
+    var cMid = vw / 1199 + (Math.max(vw / 1199, vh / 900) * 1.06 - vw / 1199) * ZOOM_T;
     var F = phone ? Math.max(cMid / 1.55, vw / PANO_W) : Math.max(vh * 1.3 / PANO_H, vw / PANO_W);
     var oy = vh * 0.42 - HORIZON * F;
     var focusX = mobile ? sunX + Math.min(140, (vw * 0.18) / F) : lerp(sunX, 1835, 0.3);
