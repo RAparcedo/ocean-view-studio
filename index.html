@@ -431,6 +431,37 @@
   @media (max-width: 860px) { .gteaser__grid { grid-template-columns: 1fr; } .gteaser__list a { grid-template-columns: 1fr; } .gteaser__list i { grid-column: 1; grid-row: auto; } }
 
 
+  /* ===== location list: clearly tappable, map first on phones ===== */
+  .tap-hint { display: flex; align-items: center; gap: .5rem; margin: 1.6rem 0 .7rem; font-size: .92rem; color: var(--sc-ink); }
+  .tap-hint::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 0 rgb(242 166 90 / .6); animation: ovsHint 2.2s ease-out infinite; flex: none; }
+  @keyframes ovsHint { 0% { box-shadow: 0 0 0 0 rgb(242 166 90 / .55); } 70%, 100% { box-shadow: 0 0 0 10px rgb(242 166 90 / 0); } }
+  .places { margin: 0; border-top: 0; display: grid; gap: .45rem; }
+  .places li { border-bottom: 0; }
+  .places .place { grid-template-columns: auto 1fr auto auto; align-items: center; gap: .75rem; padding: .7rem .9rem; min-height: 3.1rem; border-radius: 12px;
+    background: var(--card, rgb(255 255 255 / .04)); border: 1px solid rgb(255 255 255 / .08); transition: border-color 160ms, background-color 160ms; }
+  .places .place::after { content: "›"; font-size: 1.3rem; line-height: 1; color: var(--sc-ink-soft); transition: transform 200ms cubic-bezier(.2,.8,.2,1), color 160ms; }
+  .places .pin { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: rgb(242 166 90 / .14); color: var(--sun); font-style: normal; }
+  .places .pin svg { width: 1rem; height: 1rem; }
+  .places li b { font-size: 1.2rem; }
+  .places .place:hover b, .places .place[aria-pressed="true"] b { transform: none; }
+  @media (hover: hover) and (pointer: fine) { .places .place:hover { border-color: rgb(242 166 90 / .5); } .places .place:hover::after { transform: translateX(3px); color: var(--sun); } }
+  .places li.is-hot .place, .places .place[aria-pressed="true"] { border-color: var(--sun); background: rgb(242 166 90 / .1); }
+  .places li.is-hot .place::after { color: var(--sun); }
+  .places li.is-hot .pin, .places .place[aria-pressed="true"] .pin { background: var(--sun); color: #1a1206; }
+  @media (max-width: 860px) {
+    .around .grid { gap: 0; }
+    .around .grid > div { display: contents; }
+    .around .kick, .around h2, .around .lede { order: 1; }
+    .around .map { order: 2; margin-top: 1.4rem; position: sticky; top: 4.1rem; z-index: 4; align-self: start; box-shadow: 0 18px 24px -12px rgb(6 12 20 / .85); }
+    .around .tap-hint { order: 3; margin-top: 1rem; }
+    .around .places { order: 4; gap: .35rem; }
+    .around .fine { order: 5; }
+    .places .place { min-height: 2.9rem; padding: .55rem .75rem; }
+    .places li b { font-size: 1.08rem; }
+    .places .pin { width: 1.7rem; height: 1.7rem; }
+  }
+
+
   /* ===== look B: Atlantic night ===== */
   :root {
     --day-canvas: #0f1f2c;  --dusk-canvas: #0c1620;
@@ -696,14 +727,15 @@
         <span class="kick">17:30 · <span data-i18n="kAround">Around you</span></span>
         <h2 data-split data-i18n-html="aroundH">Where <em>you are</em></h2>
         <p class="lede" data-i18n="aroundP">Playa Paraíso is on the quiet south-west coast of Tenerife, between Costa Adeje and the cliffs of Los Gigantes.</p>
+        <p class="tap-hint" data-i18n="tapHint">Tap a place to see the route on the map.</p>
         <ul class="places" data-sc-in data-sc-stagger="40">
-          <li data-place="flat"><button type="button" class="place" aria-pressed="false"><b data-i18n="pBeach">Two small beaches</b><span data-i18n="pBeachT">5 min on foot</span></button></li>
-          <li data-place="fanabe"><button type="button" class="place" aria-pressed="false"><b data-i18n="pAdeje">Costa Adeje beaches</b><span data-i18n="pAdejeT">15 min by car</span></button></li>
-          <li data-place="caleta"><button type="button" class="place" aria-pressed="false"><b>La Caleta</b><span data-i18n="pCaletaT">15 min by car</span></button></li>
-          <li data-place="cristianos"><button type="button" class="place" aria-pressed="false"><b>Los Cristianos</b><span data-i18n="pCristT">20 min by car</span></button></li>
-          <li data-place="gigantes"><button type="button" class="place" aria-pressed="false"><b>Los Gigantes</b><span data-i18n="pGigT">25 min by car</span></button></li>
-          <li data-place="airport"><button type="button" class="place" aria-pressed="false"><b data-i18n="pAir">Tenerife South airport</b><span data-i18n="pAirT">25 min by car</span></button></li>
-          <li data-place="cablecar"><button type="button" class="place" aria-pressed="false"><b data-i18n="pTeide">Teide cable car</b><span data-i18n="pTeideT">1 h by car</span></button></li>
+          <li data-place="flat"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b data-i18n="pBeach">Two small beaches</b><span data-i18n="pBeachT">5 min on foot</span></button></li>
+          <li data-place="fanabe"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b data-i18n="pAdeje">Costa Adeje beaches</b><span data-i18n="pAdejeT">15 min by car</span></button></li>
+          <li data-place="caleta"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b>La Caleta</b><span data-i18n="pCaletaT">15 min by car</span></button></li>
+          <li data-place="cristianos"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b>Los Cristianos</b><span data-i18n="pCristT">20 min by car</span></button></li>
+          <li data-place="gigantes"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b>Los Gigantes</b><span data-i18n="pGigT">25 min by car</span></button></li>
+          <li data-place="airport"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b data-i18n="pAir">Tenerife South airport</b><span data-i18n="pAirT">25 min by car</span></button></li>
+          <li data-place="cablecar"><button type="button" class="place" aria-pressed="false"><i class="pin" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 15s5-4.6 5-8.5A5 5 0 0 0 3 6.5C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></i><b data-i18n="pTeide">Teide cable car</b><span data-i18n="pTeideT">1 h by car</span></button></li>
         </ul>
         <p class="fine" data-i18n="aroundFine">Approximate times without traffic, from OpenStreetMap.</p>
       </div>
@@ -800,6 +832,7 @@
 
   var T = {
     en: {
+      tapHint: 'Tap a place to see the route on the map.',
       nGuide: 'Guide', gK: 'Joanna’s guide', gH: 'Where we’d send <em>a friend.</em>', gP: 'Joanna’s short list: our favourite places to eat, the best beaches nearby and the days out worth taking.', gOpen: 'Open Joanna’s guide', gf1: 'Swim in the cove, then grilled fish at the beach bar.', gf1m: 'About 10 min · Cash only', gf2: 'Village cooking up in the hills. We went recently and loved it.', gf2m: 'About 40 min · Book ahead', gf3: 'The special dinner, with a Michelin Bib Gourmand.', gf3m: 'About 30 min · Book ahead',
       rv1: 'Location was perfect, the views from the balcony were amazing!!! The apartment was excellent for a couple and had everything we needed.', rv2: 'The view from the balcony is absolutely stunning and worth the stay in itself. The apartment block itself is very clean and clearly well maintained.', rv3: 'The ocean view from the balcony is to die for, the place is sparkly clean, the bed is very comfy, nice bathroom. Great location, it’s right across the famous Hard Rock Hotel and the bus stop is just next to it.', rv4: 'Lovely apartment, very clean &amp; the perfect size for 2 adults … nice size balcony with amazing views of the sunset in the evening.', rv5: 'Beautiful view, cozy and beautiful studio with a wonderful hostess who responded to messages immediately!', rv6: 'The apartment was fantastic, clean, like a home from home. All the extras made a difference. Fantastic view from balcony.', rvSrc: 'Booking.com guest', rvTr: '', guestsH: 'In their <em>own words.</em>', guestsP: 'Real reviews from guests who stayed here, on Booking.com.',
       q1t: '', q2t: '', q3t: '',
@@ -845,6 +878,7 @@
       bookingSuffix: 'en-gb.html'
     },
     es: {
+      tapHint: 'Toca un sitio para ver la ruta en el mapa.',
       nGuide: 'Guía', gK: 'La guía de Joanna', gH: 'Adónde mandaríamos <em>a un amigo.</em>', gP: 'La lista corta de Joanna: nuestros sitios favoritos para comer, las mejores playas cercanas y las excursiones que merecen la pena.', gOpen: 'Abrir la guía de Joanna', gf1: 'Baño en la cala y después pescado a la plancha en el chiringuito.', gf1m: 'Unos 10 min · Solo efectivo', gf2: 'Cocina de pueblo en las medianías. Fuimos hace poco y nos encantó.', gf2m: 'Unos 40 min · Reservar', gf3: 'La cena especial, con un Bib Gourmand de la Guía Michelin.', gf3m: 'Unos 30 min · Reservar',
       rv1: '«La ubicación era perfecta y las vistas desde el balcón, increíbles. El apartamento era ideal para una pareja y tenía todo lo que necesitábamos».', rv2: '«La vista desde el balcón es absolutamente impresionante y por sí sola merece la estancia. El edificio está muy limpio y se nota bien cuidado».', rv3: '«La vista al océano desde el balcón es de ensueño, todo está impecable, la cama es muy cómoda y el baño está muy bien. Buena ubicación, justo enfrente del famoso Hard Rock Hotel y con la parada de autobús al lado».', rv4: '«Apartamento encantador, muy limpio y del tamaño perfecto para dos adultos … un balcón amplio con vistas increíbles a la puesta de sol».', rv5: '«Vista preciosa, un estudio acogedor y bonito, y una anfitriona estupenda que respondía a los mensajes al momento».', rv6: '«El apartamento era fantástico, limpio, como estar en casa. Los detalles marcaron la diferencia. Una vista fantástica desde el balcón».', rvSrc: 'Huésped en Booking.com', rvTr: 'Traducido del inglés', guestsH: 'En sus <em>propias palabras.</em>', guestsP: 'Opiniones reales de huéspedes que se alojaron aquí, en Booking.com.',
       q1t: 'Traducido: «La vista desde el balcón es absolutamente impresionante y por sí sola merece la estancia».', q2t: 'Traducido: «Un balcón de buen tamaño con vistas increíbles a la puesta de sol por la tarde».', q3t: 'Traducido: «Vista preciosa, un estudio acogedor y bonito, y una anfitriona estupenda que respondía a los mensajes al momento».',
@@ -890,6 +924,7 @@
       bookingSuffix: 'es.html'
     },
     de: {
+      tapHint: 'Tippen Sie auf einen Ort, um die Route auf der Karte zu sehen.',
       nGuide: 'Tipps', gK: 'Joannas Tipps', gH: 'Wohin wir <em>Freunde schicken.</em>', gP: 'Joannas kurze Liste: unsere Lieblingslokale, die besten Strände in der Nähe und die Ausflüge, die sich lohnen.', gOpen: 'Joannas Tipps öffnen', gf1: 'Erst in der Bucht baden, dann gegrillter Fisch in der Strandbar.', gf1m: 'Ca. 10 Min. · Nur Barzahlung', gf2: 'Dorfküche oben in den Hügeln. Wir waren vor Kurzem dort und begeistert.', gf2m: 'Ca. 40 Min. · Reservieren', gf3: 'Das besondere Abendessen, mit einem Bib Gourmand des Guide Michelin.', gf3m: 'Ca. 30 Min. · Reservieren',
       rv1: '„Die Lage war perfekt, der Blick vom Balkon war fantastisch. Das Apartment war ideal für ein Paar und hatte alles, was wir brauchten.“', rv2: '„Der Blick vom Balkon ist absolut atemberaubend und allein schon den Aufenthalt wert. Die Anlage ist sehr sauber und sichtlich gut gepflegt.“', rv3: '„Der Meerblick vom Balkon ist traumhaft, alles ist blitzsauber, das Bett sehr bequem, das Bad schön. Tolle Lage, direkt gegenüber dem bekannten Hard Rock Hotel, die Bushaltestelle gleich daneben.“', rv4: '„Schönes Apartment, sehr sauber und genau die richtige Größe für zwei Erwachsene … ein schön großer Balkon mit herrlichem Blick auf den Sonnenuntergang am Abend.“', rv5: '„Schöner Blick, ein gemütliches, hübsches Studio und eine wunderbare Gastgeberin, die sofort auf Nachrichten geantwortet hat.“', rv6: '„Das Apartment war fantastisch, sauber, wie ein Zuhause. Die vielen Extras haben den Unterschied gemacht. Herrlicher Blick vom Balkon.“', rvSrc: 'Gast auf Booking.com', rvTr: 'Aus dem Englischen übersetzt', guestsH: 'In ihren <em>eigenen Worten.</em>', guestsP: 'Echte Bewertungen von Gästen, die hier gewohnt haben, auf Booking.com.',
       q1t: 'Übersetzt: „Der Blick vom Balkon ist absolut atemberaubend und allein schon den Aufenthalt wert.“', q2t: 'Übersetzt: „Ein schön großer Balkon mit herrlichem Blick auf den Sonnenuntergang am Abend.“', q3t: 'Übersetzt: „Schöner Blick, ein gemütliches, hübsches Studio und eine wunderbare Gastgeberin, die sofort auf Nachrichten geantwortet hat.“',
@@ -1090,6 +1125,7 @@
       pinned = pinned === k ? null : k;
       document.querySelectorAll('.places .place').forEach(function (o) { o.setAttribute('aria-pressed', String(o === btn && pinned === k)); });
       showPlace(pinned, time());
+      if (pinned && innerWidth <= 860) { var mr = document.querySelector('.map').getBoundingClientRect(); if (mr.top < 60 || mr.bottom > innerHeight - 80) document.querySelector('.map').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
     });
   });
 
