@@ -263,7 +263,10 @@
             mask-image: radial-gradient(circle at var(--ix) var(--iy), #000 calc(var(--ir) - 90px), transparent var(--ir)); }
   .real img { position: absolute; left: 0; top: 0; width: 1199px; height: 900px; max-width: none; transform-origin: 0 0; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { .real { -webkit-mask-image: none; mask-image: none; } }
-  .real.is-fit { background: var(--sc-canvas, #0e141c); }
+  /* below the drawn view: the land fades into the page colour (no light band on tall phones) */
+  .sunset .ground { position: absolute; left: 0; right: 0; top: 0; height: 200vh; background: linear-gradient(to bottom, rgb(14 20 28 / 0), #0e141c 70px); pointer-events: none; will-change: transform; }
+  /* phones: the photo is not full screen, so its top and bottom edges fade into the drawing */
+  .real.is-fit img { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%); }
   .sunset .sc-copy { left: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 5.5rem); max-width: min(40rem, 62vw); color: #fff; z-index: 6; }
   .sunset .sc-copy .kick { color: #f6efe6; }
   .sunset :is(h2, .h2) { font-family: var(--sc-font-display); font-weight: 400; letter-spacing: -0.012em; margin: 0; text-wrap: balance; font-size: clamp(2.8rem, 5.6vw, 5.4rem); line-height: .98; color: #fff; text-shadow: 0 2px 26px rgb(6 12 30 / .45); }
@@ -831,6 +834,7 @@
       <img class="pl pl--gold" src="assets/pano-land-gold.webp" width="5500" height="1425" alt="" loading="lazy" decoding="async" style="opacity:0">
       <img class="pl pl--dusk" src="assets/pano-land-dusk.webp" width="5500" height="1425" alt="" loading="lazy" decoding="async" style="opacity:0">
       <div class="glitter" aria-hidden="true"><i></i></div>
+      <div class="ground" aria-hidden="true"></div>
       <div class="real"><img src="assets/v2/sunset.webp" width="1600" height="1201" alt="A real sunset photographed from the balcony: the sun over the sea, the cove and the terraced hotel below." data-i18n-alt="altSunset" loading="lazy" decoding="async"></div>
       <div class="scrim" aria-hidden="true"></div>
       <div class="sc-copy" data-sc-cue="0 0.34 0 0.1">
@@ -1207,19 +1211,23 @@
     skyGold: sunset.querySelector('.sky--gold'), skyDusk: sunset.querySelector('.sky--dusk'),
     plDay: sunset.querySelector('.pl--day'), plGold: sunset.querySelector('.pl--gold'), plDusk: sunset.querySelector('.pl--dusk'),
     sun: sunset.querySelector('.sun'), glow: sunset.querySelector('.glow'), glit: sunset.querySelector('.glitter'),
-    real: sunset.querySelector('.real'), realImg: sunset.querySelector('.real img'), credit: sunset.querySelector('.credit')
+    ground: sunset.querySelector('.ground'), real: sunset.querySelector('.real'), realImg: sunset.querySelector('.real img'), credit: sunset.querySelector('.credit')
   };
   var ROOM_W = 1080, ROOM_H = 1920, WIN_X = 435, WIN_Y = 555, PANO_OX = -1896, PANO_OY = 213;
   // phones: the address bar hiding/showing changes innerHeight while scrolling; size the scenes from the
   // stable small-viewport frame (.sc-stage is 100svh) so nothing zooms or flickers
   var ZOOM_T = (function () { var m = location.search.match(/[?&]pz=([0-9.]+)/); return m ? Math.min(1, +m[1]) : 0.25; })();   // phone sunset zoom: 0 = photo fits width, 1 = fills screen
-  var COARSE = matchMedia('(pointer: coarse)').matches, lockW = innerWidth, lockH = innerHeight;
+  var COARSE = matchMedia('(pointer: coarse)').matches, lockW = 0, lockH = 0;   // measured once the page has laid out
   function stableVH() {   // touch screens: keep the height from load; only a width change (rotation) re-measures
     if (!COARSE) return innerHeight;
-    if (innerWidth !== lockW) { lockW = innerWidth; lockH = innerHeight; }
+    var w = document.documentElement.clientWidth;
+    if (w !== lockW || !lockH) { lockW = w; lockH = innerHeight; }
     return lockH;
   }
   var vw = innerWidth, vh = stableVH();
+  if (COARSE && matchMedia('(max-width: 860px)').matches) {   // phones: 3300px layers instead of 5500px (GPU memory: tiles were dropping = flicker)
+    document.querySelectorAll('.sunset .pl').forEach(function (im) { im.src = im.getAttribute('src').replace('.webp', '-m.webp'); });
+  }
   function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t); }
   function clamp01(t) { return t < 0 ? 0 : t > 1 ? 1 : t; }
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -1258,6 +1266,7 @@
     var cMid = vw / 1199 + (Math.max(vw / 1199, vh / 900) * 1.06 - vw / 1199) * ZOOM_T;
     var F = phone ? Math.max(cMid / 1.55, vw / PANO_W) : Math.max(vh * 1.3 / PANO_H, vw / PANO_W);
     var oy = vh * 0.42 - HORIZON * F;
+    if (S.ground) S.ground.style.transform = 'translate3d(0,' + Math.round(oy + PANO_H * F - 70) + 'px,0)';
     var focusX = mobile ? sunX + Math.min(140, (vw * 0.18) / F) : lerp(sunX, 1835, 0.3);
     var ox = Math.min(0, Math.max(vw - PANO_W * F, vw / 2 - focusX * F));
     [S.plDay, S.plGold, S.plDusk].forEach(function (el) { setT(el, ox, oy, F); });
@@ -1274,6 +1283,7 @@
     S.skyDusk.style.opacity = String(dusk);
     S.plGold.style.opacity = String(clamp01(q / 0.45));
     S.plDusk.style.opacity = String(dusk);
+    S.plGold.style.visibility = q > 0 ? 'visible' : 'hidden'; S.plDusk.style.visibility = dusk > 0 ? 'visible' : 'hidden';
     S.glow.style.opacity = String(0.12 + 0.88 * Math.sin(Math.PI * clamp01(q * 1.05)));
     S.glit.style.opacity = String(clamp01((q - 0.15) / 0.3) * (1 - clamp01((q - 0.85) / 0.15) * 0.7));
     S.sun.style.opacity = String(1 - clamp01((q - 0.94) / 0.06));
@@ -1484,7 +1494,7 @@
   ScrollCraft.mount(document.body);
   placeNight();
   requestAnimationFrame(loop);
-  function relayout() { dispatchEvent(new Event('resize')); }
+  function relayout() { lockW = 0; dispatchEvent(new Event('resize')); }
   addEventListener('load', relayout);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
 })();
