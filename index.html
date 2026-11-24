@@ -258,6 +258,7 @@
             mask-image: radial-gradient(circle at var(--ix) var(--iy), #000 calc(var(--ir) - 90px), transparent var(--ir)); }
   .real img { position: absolute; left: 0; top: 0; width: 1199px; height: 900px; max-width: none; transform-origin: 0 0; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { .real { -webkit-mask-image: none; mask-image: none; } }
+  .real.is-fit { background: var(--sc-canvas, #0e141c); }
   .sunset .sc-copy { left: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 5.5rem); max-width: min(40rem, 62vw); color: #fff; z-index: 6; }
   .sunset .sc-copy .kick { color: #f6efe6; }
   .sunset :is(h2, .h2) { font-family: var(--sc-font-display); font-weight: 400; letter-spacing: -0.012em; margin: 0; text-wrap: balance; font-size: clamp(2.8rem, 5.6vw, 5.4rem); line-height: .98; color: #fff; text-shadow: 0 2px 26px rgb(6 12 30 / .45); }
@@ -1199,8 +1200,11 @@
     // the real photo opens from the point where the drawn sun went down, with the real sun placed there
     var r = reduce ? clamp01((p - 0.7) / 0.08) : ease((p - 0.7) / 0.18);
     var hy = oy + HORIZON * F;
-    var c = Math.max(vw / 1199, vh / 900) * 1.06;
-    var tx = Math.min(0, Math.max(vw - 1199 * c, sx - 585 * c)), ty = Math.min(0, Math.max(vh - 900 * c, hy - 297 * c));
+    var fitW = vw <= 860 && vh > vw;   // phones: show the whole photo across the width, not a zoomed slice
+    var c = fitW ? vw / 1199 : Math.max(vw / 1199, vh / 900) * 1.06;
+    var tx = fitW ? 0 : Math.min(0, Math.max(vw - 1199 * c, sx - 585 * c));
+    var ty = fitW ? Math.round(Math.max(70, (vh - 900 * c) * 0.3)) : Math.min(0, Math.max(vh - 900 * c, hy - 297 * c));
+    S.real.classList.toggle('is-fit', fitW);
     S.realImg.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) scale(' + c.toFixed(4) + ')';
     var ix = tx + 585 * c, iy = ty + 262 * c;
     var far = Math.hypot(Math.max(ix, vw - ix), Math.max(iy, vh - iy)) + 100;
