@@ -250,7 +250,7 @@
   .sunset .pl { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; will-change: transform, opacity; pointer-events: none; }
   .glitter { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform, opacity;
     -webkit-mask-image: url(assets/mask-sea.png); mask-image: url(assets/mask-sea.png); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; mix-blend-mode: screen; pointer-events: none; }
-  @media (max-width: 860px) and (pointer: coarse) { .glitter { display: none; } }   /* huge masked + blended layer: phones drop its tiles (dark blocks) */
+  @media (max-width: 860px) and (pointer: coarse) { .glitter { display: none; } .glow { mix-blend-mode: normal; } .sunset .ground { height: 100svh; } }   /* huge masked + blended layer: phones drop its tiles (dark blocks) */
   .glitter i { position: absolute; top: 0; bottom: 0; width: 300px; margin-left: -150px; left: var(--gx, 50%);
     background: repeating-linear-gradient(to bottom, transparent 0 9px, rgb(255 214 150 / .55) 9px 10px, transparent 10px 23px),
       repeating-linear-gradient(to bottom, transparent 0 5px, rgb(255 220 160 / .35) 5px 6px, transparent 6px 13px),
@@ -1270,7 +1270,10 @@
     if (S.ground) S.ground.style.transform = 'translate3d(0,' + Math.round(oy + PANO_H * F - 70) + 'px,0)';
     var focusX = mobile ? sunX + Math.min(140, (vw * 0.18) / F) : lerp(sunX, 1835, 0.3);
     var ox = Math.min(0, Math.max(vw - PANO_W * F, vw / 2 - focusX * F));
-    [S.plDay, S.plGold, S.plDusk].forEach(function (el) { setT(el, ox, oy, F); });
+    if (phone) {   // drawn at its on-screen size (a 5500px layer scaled down costs far more GPU memory)
+      var pw = (PANO_W * F).toFixed(1) + 'px', ph = (PANO_H * F).toFixed(1) + 'px';
+      [S.plDay, S.plGold, S.plDusk].forEach(function (el) { if (el.style.width !== pw) { el.style.width = pw; el.style.height = ph; } setT(el, ox, oy, 1); });
+    } else [S.plDay, S.plGold, S.plDusk].forEach(function (el) { setT(el, ox, oy, F); });
     S.glit.style.width = PANO_W + 'px'; S.glit.style.height = PANO_H + 'px';
     setT(S.glit, ox, oy, F); S.glit.style.setProperty('--gx', sunX + 'px');
     // the drawn sunset runs over the first 72%, then the real photo takes over
@@ -1341,7 +1344,18 @@
     root.style.setProperty('--dusk', d.toFixed(3));
     if (d >= 0.5) root.setAttribute('data-night', ''); else root.removeAttribute('data-night');
   }
+  // phones: a scene's layers are hidden while its section is off screen, so the GPU can free them
+  var PHONE_GPU = COARSE && matchMedia('(max-width: 860px)').matches;
+  var STAGES = Array.prototype.map.call(document.querySelectorAll('[data-sc-stage]'), function (st) { return { st: st, sec: st.closest('section') }; });
+  function gpuTrim() {
+    if (!PHONE_GPU) return;
+    for (var i = 0; i < STAGES.length; i++) {
+      var r = STAGES[i].sec.getBoundingClientRect(), on = r.bottom > -vh * 0.5 && r.top < vh * 1.5;
+      if (STAGES[i].on !== on) { STAGES[i].on = on; STAGES[i].st.style.visibility = on ? '' : 'hidden'; }
+    }
+  }
   function frame() {
+    gpuTrim();
     if (arrive.getBoundingClientRect().bottom > -50) heroFrame(prog(arrive));
     var sr = sunset.getBoundingClientRect();
     if (sr.top < vh * 1.2 && sr.bottom > -vh * 0.2) sunsetFrame(prog(sunset));
@@ -1501,8 +1515,8 @@
     document.body.appendChild(dbg);
     setInterval(function () {
       var st = document.querySelector('.sunset [data-sc-stage]'), pl = document.querySelector('.sunset .pl--day');
-      var m = pl && pl.style.transform.match(/scale[(]([^)]+)/), NL = String.fromCharCode(10);
-      dbg.textContent = ['build 24Nov-2212', 'inner ' + innerWidth + 'x' + innerHeight + '  vh used ' + vh, 'stage h ' + (st ? st.clientHeight : '-') + '  coarse ' + COARSE, 'sunset img ' + (pl ? pl.currentSrc.split('/').pop() : '-'), 'scale ' + (m ? m[1] : '-') + '  glitter ' + getComputedStyle(document.querySelector('.glitter')).display].join(NL);
+      var m = pl && pl.style.transform.match(/scale[(]([^)]+)/), NL = String.fromCharCode(10); if (pl && pl.style.width) m = [0, 'w ' + pl.style.width];
+      dbg.textContent = ['build 24Nov-2216', 'inner ' + innerWidth + 'x' + innerHeight + '  vh used ' + vh, 'stage h ' + (st ? st.clientHeight : '-') + '  coarse ' + COARSE, 'sunset img ' + (pl ? pl.currentSrc.split('/').pop() : '-'), 'scale ' + (m ? m[1] : '-') + '  glitter ' + getComputedStyle(document.querySelector('.glitter')).display].join(NL);
     }, 300);
   }
   addEventListener('load', relayout);
