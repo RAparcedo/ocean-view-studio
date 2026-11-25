@@ -816,7 +816,7 @@
         <a class="btn btn--solid gteaser__btn" href="guide/"><span data-i18n="gOpen">Open Joanna’s guide</span> <span aria-hidden="true">→</span></a>
       </div>
       <ol class="gteaser__list" data-sc-in data-sc-stagger="90">
-        <li><a href="guide/#puertito"><img class="gt-ph" src="assets/guide/puertito.webp" alt="" width="1000" height="667" loading="lazy" decoding="async"><b>Chiringuito El Puertito</b><span data-i18n="gf1">Swim in the cove, then grilled fish at the beach bar.</span><i data-i18n="gf1m">About 10 min · Cash only</i></a></li>
+        <li><a href="guide/#puertito"><img class="gt-ph" src="assets/guide/puertito-village.webp" alt="" width="1000" height="667" loading="lazy" decoding="async"><b>Chiringuito El Puertito</b><span data-i18n="gf1">Swim in the cove, then grilled fish at the beach bar.</span><i data-i18n="gf1m">About 10 min · Cash only</i></a></li>
         <li><a href="guide/#tierras"><img class="gt-ph" src="assets/guide/tierras.webp" alt="" width="1000" height="667" loading="lazy" decoding="async"><b>Tasca Tierras del Sur</b><span data-i18n="gf2">Village cooking up in the hills. We went recently and loved it.</span><i data-i18n="gf2m">About 40 min · Book ahead</i></a></li>
         <li><a href="guide/#chimiche"><img class="gt-ph" src="assets/guide/chimiche.webp" alt="" width="1000" height="667" loading="lazy" decoding="async"><b>El Secreto de Chimiche</b><span data-i18n="gf3">The special dinner, with a Michelin Bib Gourmand.</span><i data-i18n="gf3m">About 30 min · Book ahead</i></a></li>
       </ol>
@@ -1516,7 +1516,7 @@
     setInterval(function () {
       var st = document.querySelector('.sunset [data-sc-stage]'), pl = document.querySelector('.sunset .pl--day');
       var m = pl && pl.style.transform.match(/scale[(]([^)]+)/), NL = String.fromCharCode(10); if (pl && pl.style.width) m = [0, 'w ' + pl.style.width];
-      dbg.textContent = ['build 24Nov-2216', 'inner ' + innerWidth + 'x' + innerHeight + '  vh used ' + vh, 'stage h ' + (st ? st.clientHeight : '-') + '  coarse ' + COARSE, 'sunset img ' + (pl ? pl.currentSrc.split('/').pop() : '-'), 'scale ' + (m ? m[1] : '-') + '  glitter ' + getComputedStyle(document.querySelector('.glitter')).display].join(NL);
+      dbg.textContent = ['build 25Nov-1626', 'inner ' + innerWidth + 'x' + innerHeight + '  vh used ' + vh, 'stage h ' + (st ? st.clientHeight : '-') + '  coarse ' + COARSE, 'sunset img ' + (pl ? pl.currentSrc.split('/').pop() : '-'), 'scale ' + (m ? m[1] : '-') + '  glitter ' + getComputedStyle(document.querySelector('.glitter')).display].join(NL);
     }, 300);
   }
   addEventListener('load', relayout);
